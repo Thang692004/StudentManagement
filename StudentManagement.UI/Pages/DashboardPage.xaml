@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="StudentManagement.UI.Pages.DashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:StudentManagement.UI.Pages"
+             Background="White">
+
+    <Grid Margin="20">
+        <TextBlock Text="Welcome to Dashboard" FontSize="24" FontWeight="Bold"/>
+        <!-- so lieu (after done basic funcitons) -->
+    </Grid>
+</UserControl>
