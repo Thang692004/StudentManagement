@@ -33,8 +33,14 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
                     <DataGridTextColumn Header="Họ tên" Binding="{Binding Name}" Width="*"/>
-                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding DateOfBirth}" Width="150"/>
-                    <DataGridTextColumn Header="Lớp" Binding="{Binding Class}" Width="150"/>
+                    <DataGridTextColumn Header="Giới tính" Binding="{Binding Gender}" Width="*"/>
+                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding DateOfBirth}" Width="*"/>
+                    <DataGridTextColumn Header="Địa chỉ" Binding="{Binding Address}" Width="*"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                    <DataGridTextColumn Header="Số điện thoại" Binding="{Binding PhoneNumber}" Width="*"/>
+                    <DataGridTextColumn Header="Lớp" Binding="{Binding Class}" Width="*"/>
+                    <DataGridTextColumn Header="Khoa" Binding="{Binding Depart}" Width="*"/>
+                    <DataGridTextColumn Header="Trạng Thái" Binding="{Binding Status}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
@@ -52,7 +58,7 @@
             <!-- Sửa -->
             <Button Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Source="/Assets/Icons/delete.png" Width="18" Height="18" Margin="0,0,5,0"/>
+                    <Image Source="/Assets/Icons/modify-icon.png" Width="18" Height="18" Margin="0,0,5,0"/>
                     <TextBlock Text="Sửa" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
@@ -60,7 +66,7 @@
             <!-- Xóa -->
             <Button Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Source="/Assets/Icons/modify-icon.png" Width="18" Height="18" Margin="0,0,5,0"/>
+                    <Image Source="/Assets/Icons/delete.png" Width="18" Height="18" Margin="0,0,5,0"/>
                     <TextBlock Text="Xóa" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>

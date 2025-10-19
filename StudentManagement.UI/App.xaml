@@ -61,13 +61,13 @@
         </Style>
         <Style x:Key="TextBoxStyle" TargetType="TextBox">
             <Setter Property="Margin" Value="0,5"/>
-            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Padding" Value="4"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="BorderBrush" Value="#BDC3C7"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="Height" Value="30"/>
+            <Setter Property="Height" Value="35"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <!-- Hover và Focus -->
@@ -75,6 +75,12 @@
                 <Trigger Property="IsFocused" Value="True">
                     <Setter Property="BorderBrush" Value="#3498DB"/>
                     <Setter Property="BorderThickness" Value="2"/>
+                </Trigger>
+                <Trigger Property="IsReadOnly" Value="True">
+                    <Setter Property="Background" Value="#FFFBEA"/>
+                    <!-- vàng nhạt -->
+                    <Setter Property="BorderBrush" Value="#FFCC66"/>
+                    <!-- viền vàng -->
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="BorderBrush" Value="#2980B9"/>

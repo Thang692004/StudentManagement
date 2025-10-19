@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="StudentManagement.UI.Pages.SubjectPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StudentManagement.UI.Pages"
+             mc:Ignorable="d" 
+             Background="white"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="#2C3E50" Padding="15" CornerRadius="8" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,15">
+            <TextBlock Text="Quản lý Môn Học"
+               Foreground="White"
+               FontSize="22"
+               FontWeight="Bold"
+               VerticalAlignment="Center"/>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+              VerticalScrollBarVisibility="Hidden"
+              HorizontalScrollBarVisibility="Disabled">
+
+            <Grid>
+                <!-- Gạch ngang trên -->
+                <Border Height="2"
+                Background="Black"
+                Opacity="0.4"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"/>
+
+                <!-- Border chứa bảng -->
+                <Border Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="120" />
+                        </Grid.RowDefinitions>
+
+                        <!-- CỘT 1: FORM -->
+                        <Grid Margin="10" Grid.Column="0">
+                            <StackPanel Margin="0,5">
+                                <TextBlock Text="Thông Tin Môn học" 
+                                   FontWeight="Bold" FontSize="16" 
+                                   Margin="0,0,0,5"/>
+                                <Border Height="2" Background="Black" Opacity="0.4"
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,10"/>
+
+                                <Border BorderBrush="#CCCCCC" BorderThickness="1"
+                                 CornerRadius="8" Padding="10"
+                                 Margin="0,0,0,10">
+
+                                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" PreviewMouseWheel="svForm_PreviewMouseWheel">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <StackPanel Orientation="Horizontal" Margin="0,5" Grid.Row="0">
+                                                <TextBlock Text="Mã Môn:" Width="120" VerticalAlignment="Center"/>
+                                                <TextBox x:Name="txtClassId" Style="{DynamicResource TextBoxStyle}" Width="400"/>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" Margin="0,5" Grid.Row="1">
+                                                <TextBlock Text="Tên Môn:" Width="120" VerticalAlignment="Center"/>
+                                                <TextBox x:Name="txtNameClass" Style="{DynamicResource TextBoxStyle}" Width="400"/>
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                    <Button Width="120" Margin="0,0,10,0" Background="#27AE60" Style="{StaticResource ActionButtonStyle}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="\Assets\Icons\add-symbol.png" Height="18"/>
+                                            <TextBlock Text="Thêm" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Button Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Icons/modify-icon.png" Height="18" Margin="0,0,5,0"/>
+                                            <TextBlock Text="Sửa" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Button Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Icons/delete.png" Height="18" Margin="0,0,5,0"/>
+                                            <TextBlock Text="Xóa" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Gạch dọc ngăn -->
+                        <Border Grid.Column="0" Width="1" Background="Black"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Stretch"
+                        Margin="0,20,0,20"/>
+
+                        <!-- CỘT 2: DANH SÁCH -->
+                        <StackPanel Grid.Column="1" Margin="10">
+                            <TextBlock Text="Danh Sách Môn"
+                               FontWeight="Bold" FontSize="16"
+                               Margin="0,0,0,5"/>
+
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="SearchBox"
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                FontSize="14" Height="30"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                Style="{DynamicResource TextBoxStyle}"/>
+                                <Button Content="Search"
+                                Grid.Column="1"
+                                Width="120" Height="30"
+                                Click="Search_Click"
+                                Style="{DynamicResource SearchButtonStyle}"
+                                HorizontalAlignment="Right"
+                                Background="#135D81"/>
+                            </Grid>
+
+                            <StackPanel Margin="10" Background="#F9F9F9">
+
+
+                                <!-- Bảng dữ liệu -->
+                                <Border CornerRadius="8" Background="White" Padding="10"
+                                BorderBrush="#BDC3C7" BorderThickness="1">
+                                    <DataGrid x:Name="StudentsDataGrid"
+                                      AutoGenerateColumns="False"
+                                      HeadersVisibility="Column"
+                                      CanUserAddRows="False"
+                                      AlternatingRowBackground="#F8F9F9"
+                                      GridLinesVisibility="None"
+                                      RowHeight="35"
+                                      Height="300"
+                                      FontSize="14">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Mã Môn" Binding="{Binding MaLop}" Width="*"/>
+                                            <DataGridTextColumn Header="Tên Môn" Binding="{Binding TenLop}" Width="2*"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Border>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

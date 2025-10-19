@@ -80,16 +80,24 @@
                     <TextBox x:Name="txtSdt" Style="{DynamicResource TextBoxStyle}" Width="200"/>
                 </StackPanel>
 
-                <!-- Lớp -->
-                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
-                    <TextBlock Text="Lớp:" Width="120" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtClass" Style="{DynamicResource TextBoxStyle}" Width="200"/>
-                </StackPanel>
-
                 <!-- Khoa -->
-                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Khoa:" Width="120" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtDepart" Style="{DynamicResource TextBoxStyle}" Width="200"/>
+                    <ComboBox Style="{DynamicResource ComboBoxStyle}" x:Name="txtDepart" Width="200">
+                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Cntt"/>
+                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Ktmt"/>
+                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Ann"/>
+                    </ComboBox>
+                </StackPanel>
+                
+                <!-- Lớp -->
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Lớp:" Width="120" VerticalAlignment="Center"/>
+                    <ComboBox Style="{DynamicResource ComboBoxStyle}" x:Name="txtClass" Width="200">
+                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Cntt1-K20"/>
+                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Cntt2-k20"/>
+                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Cntt3-k20"/>
+                    </ComboBox>
                 </StackPanel>
 
                 <!-- Mô tả -->

@@ -15,6 +15,7 @@
     <None Remove="Assets\Icons\list.png" />
     <None Remove="Assets\Icons\logo.png" />
     <None Remove="Assets\Icons\modify-icon.png" />
+    <None Remove="Assets\Icons\user.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +25,9 @@
     <Resource Include="Assets\Icons\list.png" />
     <Resource Include="Assets\Icons\logo.png" />
     <Resource Include="Assets\Icons\modify-icon.png" />
+    <Resource Include="Assets\Icons\user.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

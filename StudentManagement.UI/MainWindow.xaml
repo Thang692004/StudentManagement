@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:StudentManagement.UI"
-        Title="Student Management" Height="600" Width="1000"
+        Title="Student Management" Height="700" Width="1200"
+        MinHeight="500" MinWidth="800"
         WindowStartupLocation="CenterScreen">
 
     <Grid>
@@ -12,45 +13,162 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Width="250" Height="150" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+            <!-- Ảnh nền -->
+            <Image Source="Assets/Icons/dotted.jpg" Stretch="UniformToFill"/>
+
+            <!-- Overlay nội dung -->
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <!-- Tên phần mềm -->
+                <Image Source="Assets/Icons/logo.png" VerticalAlignment="Center" Width="200" Height="100"></Image>
+
+                <!-- Vai trò -->
+                <TextBlock Text="Admin"  
+                           FontSize="14" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,5,0,0"/>
+            </StackPanel>
+        </Grid>
+
         <!-- Left Navigation Panel -->
-        <StackPanel Background="#2C3E50" Grid.Column="0" Grid.Row="1" >
-            <Grid Width="250" Height="150">
-                <!-- Ảnh nền -->
-                <Image Source="Assets/Icons/dotted.jpg" Stretch="UniformToFill"/>
+        <ScrollViewer Grid.Column="0" Grid.Row="3" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Background="#2C3E50">
+                <Button Content="Dashboard" Name="BtnDashboard" 
+                Style="{StaticResource MenuButtonStyle}" 
+                Click="BtnDashboard_Click"/>
 
-                <!-- Overlay nội dung -->
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
-                    <!-- Tên phần mềm -->
-                    <Image Source="Assets/Icons/logo.png" VerticalAlignment="Center" Width="200" Height="100"></Image>
+                <Button Content="Quản lý Sinh viên" Name="BtnStudents" 
+                Style="{StaticResource MenuButtonStyle}" 
+                Click="BtnStudents_Click"/>
 
-                    <!-- Vai trò -->
-                    <TextBlock Text="Admin"  
-                       FontSize="14" 
-                       HorizontalAlignment="Center" 
-                       Margin="0,5,0,0"/>
-                </StackPanel>
-            </Grid>
+                <Button Content="Quản lý Điểm" Name="BtnScores" 
+                Style="{StaticResource MenuButtonStyle}" 
+                Click="BtnScores_Click"/>
 
-            <Button Content="Dashboard" Name="BtnDashboard" Style="{StaticResource MenuButtonStyle}" Click="BtnDashboard_Click"/>
-            <Button Content="Quản lý Sinh viên" Name="BtnStudents" Style="{StaticResource MenuButtonStyle}" Click="BtnStudents_Click"/>
-            <Button Content="Quản lý Giảng viên" Name="BtnTeachers" Style="{StaticResource MenuButtonStyle}" Click="BtnTeachers_Click"/>
-            <Button Content="Quản lý Khoa" Name="BtnDepartments" Style="{StaticResource MenuButtonStyle}" />
-            <Button Content="Quản lý Lớp" Name="BtnClasses" Style="{StaticResource MenuButtonStyle}" />
-            <Button Content="Quản lý Môn" Name="BtnSubjects" Style="{StaticResource MenuButtonStyle}" />
-            <Button Content="Tài khoản" Name="BtnAccounts" Style="{StaticResource MenuButtonStyle}" />
-        </StackPanel>
+                <Button Content="Quản lý Lớp" Name="BtnClasses" 
+                Style="{StaticResource MenuButtonStyle}" 
+                Click="BtnClasses_Click"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Background="GhostWhite" VerticalAlignment="Top" Margin="0,0,0,5" Height="50">
-            <Image Source="Assets/Icons/list.png" Style="{DynamicResource SearchIconStyle}" Width="80" VerticalAlignment="Center"/>
-            <TextBox x:Name="SearchBox" Width="480" Margin="0,0,10,0" 
-                 FontSize="14" Height="30" Style="{DynamicResource TextBoxStyle}"/>
-            <Button Content="Search" Width="120" Height="30" Click="Search_Click" Style="{DynamicResource SearchButtonStyle}"/>
-        </StackPanel>
+                <Button Content="Quản lý Khoa" Name="BtnDepart" 
+                Style="{StaticResource MenuButtonStyle}" 
+                Click="BtnDepartments_Click"/>
+
+                <Button Content="Quản lý Môn học" Name="BtnSubjects" 
+                Style="{StaticResource MenuButtonStyle}" 
+                Click="BtnSubjects_Click"/>
+
+                <Button Content="Quản lý Tài khoản" Name="BtnAccounts" 
+                Style="{StaticResource MenuButtonStyle}" 
+                Click="BtnAccounts_Click"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Column="1" Grid.Row="0" Background="GhostWhite" Height="50" Margin="0,0,0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Source="Assets/Icons/list.png"
+                Style="{DynamicResource SearchIconStyle}"
+                Width="80" VerticalAlignment="Center" Grid.Column="0"/>
+
+            <TextBox x:Name="SearchBox"
+                Grid.Column="1"
+                Margin="0,0,10,0"
+                FontSize="14" Height="30"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                Style="{DynamicResource TextBoxStyle}"/>
+
+            <Button Content="Search"
+                Grid.Column="2"
+                Width="120" Height="30"
+                Click="Search_Click"
+                Style="{DynamicResource SearchButtonStyle}"
+                VerticalAlignment="Center"/>
+            
+            <ToggleButton x:Name="ProfileToggle"
+                          Grid.Column="3"
+                          Margin="50,0,10,0"
+                          Height="35"
+                          VerticalAlignment="Center"
+                          Cursor="Hand"
+                          HorizontalAlignment="Right"
+                          BorderThickness="1"
+                          Background="Transparent"
+                          Checked="ProfileToggle_Checked">
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid>
+                            <!-- Hình chữ nhật capsule -->
+                            <Border Background="#2C3E50"
+                                    CornerRadius="8"
+                                    Height="30" Width="60"
+                                    Padding="20,0,10,0"
+                                    HorizontalAlignment="Right">    
+                                <!-- Mũi tên -->
+                                <Path x:Name="ArrowPath"
+                                      Data="M 0 0 L 10 0 L 5 5 Z"
+                                      Fill="White"
+                                      Width="10" Height="5"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Right"
+                                      Margin="0,0,5,0"/>
+                            </Border>
+
+                            <!-- Icon tròn chồng lên góc trái -->
+                            <Ellipse Width="35" Height="35"
+                                     Fill="White"
+                                     Stroke="#2C3E50"
+                                     StrokeThickness="2"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Margin="-10,0,0,0"/>
+                            <Image Source="Assets/Icons/profile.png"
+                                   Width="20" Height="20"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Margin="-10,0,0,0"/>
+                        </Grid>
+
+                        <!-- Triggers đổi hướng mũi tên -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ArrowPath" Property="Data" 
+                                        Value="M 0 5 L 10 5 L 5 0 Z"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+
+                <!-- ContextMenu (danh sách thả xuống) -->
+                <ToggleButton.ContextMenu>
+                    <ContextMenu x:Name="ProfileMenu" Closed="ProfileMenu_Closed">
+                        <MenuItem Header="Profile" Click="Profile_Click"/>
+                        <MenuItem Header="Settings"/>
+                        <Separator/>
+                        <MenuItem Header="Logout"/>
+                    </ContextMenu>
+                </ToggleButton.ContextMenu>
+            </ToggleButton>
+
+        </Grid>
+
         <!-- Line đứng giữa 2 cột -->
-        <Border Grid.Column="0" Grid.Row="0" Width="1" Background="Black" HorizontalAlignment="Right"/>
+        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Width="1" Background="Black" HorizontalAlignment="Right"/>
 
         <!-- Right Content Area -->
-        <ContentControl x:Name="MainContent" Grid.Column="1" Background="#ECF0F1"/>
+        <ContentControl x:Name="MainContent" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Background="#ECF0F1" VerticalAlignment="Top"/>
         
     </Grid>
 </Window>

@@ -10,6 +10,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StudentManagement.UI;
+
+using System.Windows.Controls.Primitives;
 using StudentManagement.UI.Pages;
 
 /// <summary>
@@ -31,9 +33,30 @@ public partial class MainWindow : Window
         MainContent.Content = new StudentsPage();
     }
 
-    private void BtnTeachers_Click(object sender, RoutedEventArgs e)
+    private void BtnScores_Click(object sender, RoutedEventArgs e)
     {
-        MainContent.Content = new TeachersPage();
+        MainContent.Content = new ScoresPage();
+    }
+
+    private void BtnClasses_Click(object sender, RoutedEventArgs e)
+    {
+        MainContent.Content = new ClassPage();
+    }
+    private void BtnDepartments_Click(object sender, RoutedEventArgs e)
+    {
+        MainContent.Content = new DepartmentPage();
+    }
+    private void BtnSubjects_Click(object sender, RoutedEventArgs e)
+    {
+        MainContent.Content = new SubjectPage();
+    }
+    private void BtnAccounts_Click(object sender, RoutedEventArgs e)
+    {
+        MainContent.Content = new AccountsPage();
+    }
+    private void Profile_Click(object sender, RoutedEventArgs e)
+    {
+        MainContent.Content = new ProfilePage();
     }
     private void Search_Click(object sender, RoutedEventArgs e)
     {
@@ -43,5 +66,21 @@ public partial class MainWindow : Window
             MessageBox.Show($"Tìm kiếm: {query}", "Search");
             // TODO: gọi logic filter dữ liệu ở MainContent
         }
+    }
+    // Khi ToggleButton được check
+    private void ProfileToggle_Checked(object sender, RoutedEventArgs e)
+    {
+        if (ProfileToggle.ContextMenu != null)
+        {
+            ProfileToggle.ContextMenu.PlacementTarget = ProfileToggle;
+            ProfileToggle.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            ProfileToggle.ContextMenu.IsOpen = true;
+        }
+    }
+
+    // Khi ContextMenu đóng thì reset lại toggle
+    private void ProfileMenu_Closed(object sender, RoutedEventArgs e)
+    {
+        ProfileToggle.IsChecked = false;
     }
 }
