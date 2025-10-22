@@ -31,16 +31,29 @@
                       RowHeight="35"
                       FontSize="14">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
-                    <DataGridTextColumn Header="Họ tên" Binding="{Binding Name}" Width="*"/>
-                    <DataGridTextColumn Header="Giới tính" Binding="{Binding Gender}" Width="*"/>
-                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding DateOfBirth}" Width="*"/>
-                    <DataGridTextColumn Header="Địa chỉ" Binding="{Binding Address}" Width="*"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
-                    <DataGridTextColumn Header="Số điện thoại" Binding="{Binding PhoneNumber}" Width="*"/>
-                    <DataGridTextColumn Header="Lớp" Binding="{Binding Class}" Width="*"/>
-                    <DataGridTextColumn Header="Khoa" Binding="{Binding Depart}" Width="*"/>
-                    <DataGridTextColumn Header="Trạng Thái" Binding="{Binding Status}" Width="*"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding MaSV}" Width="70"/>
+                    <DataGridTextColumn Header="Họ tên" Binding="{Binding HoTen}" Width="120"/>
+                    <DataGridTextColumn Header="Giới tính" Binding="{Binding GioiTinh}" Width="80"/>
+                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding NgaySinh, StringFormat=\{0:dd/MM/yyyy}" Width="120"/>
+                    <DataGridTextColumn Header="Địa chỉ" Binding="{Binding DiaChi}" Width="200"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="120"/>
+                    <DataGridTextColumn Header="Số điện thoại" Binding="{Binding SoDienThoai}" Width="100"/>
+                    <DataGridTextColumn Header="Lớp" Binding="{Binding TenLop}" Width="200"/>
+                    <DataGridTextColumn Header="Khoa" Binding="{Binding TenKhoa}" Width="200"/>
+                    <DataGridTextColumn Header="Trạng Thái" Binding="{Binding TrangThai}" Width="200">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding TrangThai}" Value="Đang học">
+                                        <Setter Property="Foreground" Value="Green"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding TrangThai}" Value="Nghỉ học">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
@@ -56,7 +69,7 @@
             </Button>
 
             <!-- Sửa -->
-            <Button Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
+            <Button Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}" Click="Repair_button">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image Source="/Assets/Icons/modify-icon.png" Width="18" Height="18" Margin="0,0,5,0"/>
                     <TextBlock Text="Sửa" VerticalAlignment="Center"/>
@@ -64,7 +77,7 @@
             </Button>
 
             <!-- Xóa -->
-            <Button Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
+            <Button Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}" Click="Delete_button">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image Source="/Assets/Icons/delete.png" Width="18" Height="18" Margin="0,0,5,0"/>
                     <TextBlock Text="Xóa" VerticalAlignment="Center"/>

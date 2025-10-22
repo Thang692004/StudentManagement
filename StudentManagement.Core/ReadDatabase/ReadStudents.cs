@@ -73,8 +73,15 @@ namespace StudentManagement
                         s.TenLop = !reader.IsDBNull(ordTenLop) ? reader.GetString(ordTenLop) : string.Empty;
                         s.MaKhoa = !reader.IsDBNull(ordMaKhoa) ? reader.GetString(ordMaKhoa) : string.Empty;
                         s.TenKhoa = !reader.IsDBNull(ordTenKhoa) ? reader.GetString(ordTenKhoa) : string.Empty;
-                        s.TrangThai = !reader.IsDBNull(ordTrangThai) && reader.GetBoolean(ordTrangThai);
-
+                        s.Check_TrangThai = !reader.IsDBNull(ordTrangThai) && reader.GetBoolean(ordTrangThai);
+                        if (s.Check_TrangThai == true)
+                        {
+                            s.TrangThai = "Đang học";
+                        }
+                        else
+                        {
+                            s.TrangThai = "Nghỉ học";
+                        }
                         students.Add(s);
                     }
                 }

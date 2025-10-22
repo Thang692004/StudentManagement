@@ -83,32 +83,45 @@
                 <!-- Khoa -->
                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Khoa:" Width="120" VerticalAlignment="Center"/>
-                    <ComboBox Style="{DynamicResource ComboBoxStyle}" x:Name="txtDepart" Width="200">
-                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Cntt"/>
-                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Ktmt"/>
-                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Ann"/>
-                    </ComboBox>
-                </StackPanel>
-                
-                <!-- Lớp -->
-                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
-                    <TextBlock Text="Lớp:" Width="120" VerticalAlignment="Center"/>
-                    <ComboBox Style="{DynamicResource ComboBoxStyle}" x:Name="txtClass" Width="200">
-                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Cntt1-K20"/>
-                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Cntt2-k20"/>
-                        <ComboBoxItem Style="{DynamicResource ComboBoxStyleItem}" Content="Cntt3-k20"/>
+                    <ComboBox Style="{DynamicResource ComboBoxStyle}" x:Name="txtFaculty" Width="200"
+                              DisplayMemberPath="TenKhoa"
+                              SelectedValuePath="MaKhoa"
+                              SelectionChanged="OnFacultyChanged"
+                              IsEditable="True" IsReadOnly="True"
+                              Text="--Chọn Khoa--">
                     </ComboBox>
                 </StackPanel>
 
-                <!-- Mô tả -->
-                <StackPanel Grid.Row="2" Grid.Column="1" Grid.RowSpan="3" Orientation="Horizontal" Margin="0,5">
-                    <TextBlock Text="Khác:" Width="120" VerticalAlignment="Center"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" 
-                    Grid.RowSpan="3"
-                    Width="200"
-                    AcceptsReturn="True"
-                    TextWrapping="Wrap"
-                    VerticalScrollBarVisibility="Auto"/>
+                <!-- Lớp -->
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Lớp:" Width="120" VerticalAlignment="Center"/>
+                    <ComboBox Style="{DynamicResource ComboBoxStyle}" x:Name="txtClass" Width="200"
+                              DisplayMemberPath="TenLop"
+                              SelectedValuePath="MaLop"
+                              IsEditable="True" IsReadOnly="True"
+                              Text="--Chọn Lớp--">
+
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Địa chỉ -->
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Địa chỉ " Width="120" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="txtAdress" Style="{DynamicResource TextBoxStyle}" Width="200"/>
+                </StackPanel>
+                
+                <!-- Trạng thái -->
+                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Trạng Thái" Width="120" VerticalAlignment="Center"></TextBlock>
+                    <Border BorderBrush="Black" BorderThickness="1" Padding="5" 
+                            HorizontalAlignment="Left" VerticalAlignment="Center" 
+                            Width="200">
+                        <CheckBox x:Name="chkTrangThai" Content="Nghỉ học"  VerticalAlignment="Center" 
+                                  IsChecked="False"
+                                  Foreground="Red" Margin="0,0,100,0" 
+                                  Checked="CheckBox_StatusChanged" 
+                                  Unchecked="CheckBox_StatusChanged" />
+                    </Border>
                 </StackPanel>
             </Grid>
         </Border>

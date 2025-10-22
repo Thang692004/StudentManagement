@@ -15,8 +15,8 @@ namespace StudentManagement.Core
             public string TenLop { get; set; } // Lấy từ bảng 'lop'
             public string MaKhoa { get; set; }
             public string TenKhoa { get; set; } // Lấy từ bảng 'khoa'
-            public bool TrangThai { get; set; } // Chuyển từ tinyint sang bool
-
+            public bool Check_TrangThai { get; set; } // Chuyển từ tinyint sang bool
+            public string TrangThai { get; set; }
             public string DateOfBirthFormatted => NgaySinh.ToString("dd/mm/yyyy"); // 
 	    
 	    }

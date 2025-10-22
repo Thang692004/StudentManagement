@@ -1,4 +1,4 @@
-﻿// File: InsertStudents.cs (Bạn cần tự tạo file này)
+﻿
 using MySql.Data.MySqlClient;
 using StudentManagement.Core;
 using System;
@@ -14,8 +14,9 @@ namespace StudentManagement
             using (var conn = new MySqlConnection(connStr))
             {
                 conn.Open();
-                string query = @"INSERT INTO sinh_vien (MaSV, HoTen, NgaySinh, GioiTinh, Email, SoDienThoai, MaLop, MaKhoa) 
-                                 VALUES (@MaSV, @HoTen, @NgaySinh, @GioiTinh, @Email, @SoDienThoai, @MaLop, @MaKhoa)";
+                // Đã thêm cột TrangThai vào danh sách cột và VALUES
+                string query = @"INSERT INTO sinh_vien (MaSV, HoTen, NgaySinh, GioiTinh, Email, SoDienThoai, MaLop, MaKhoa, TrangThai) 
+                                 VALUES (@MaSV, @HoTen, @NgaySinh, @GioiTinh, @Email, @SoDienThoai, @MaLop, @MaKhoa, @TrangThai)";
 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
@@ -28,8 +29,9 @@ namespace StudentManagement
                     cmd.Parameters.AddWithValue("@SoDienThoai", student.SoDienThoai);
                     cmd.Parameters.AddWithValue("@MaLop", student.MaLop);
                     cmd.Parameters.AddWithValue("@MaKhoa", student.MaKhoa);
+                    cmd.Parameters.AddWithValue("@TrangThai", student.Check_TrangThai);
 
-                    cmd.ExecuteNonQuery(); // Thực thi lệnh INSERT
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
