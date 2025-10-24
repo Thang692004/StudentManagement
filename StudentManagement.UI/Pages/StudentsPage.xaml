@@ -22,6 +22,15 @@
         <!-- DataGrid -->
         <Border Grid.Row="1" CornerRadius="8" Background="White" Padding="10" 
                 BorderBrush="#BDC3C7" BorderThickness="1" >
+            <Grid>
+                <TextBlock x:Name="NoResultsText"
+               Text="Không tìm thấy kết quả phù hợp."
+               FontSize="24"
+               Foreground="Gray"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Visibility="Collapsed" 
+               Margin="0,50,0,0"/>
             <DataGrid x:Name="StudentsDataGrid" 
                       AutoGenerateColumns="False" 
                       HeadersVisibility="Column"
@@ -31,16 +40,16 @@
                       RowHeight="35"
                       FontSize="14">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding MaSV}" Width="70"/>
-                    <DataGridTextColumn Header="Họ tên" Binding="{Binding HoTen}" Width="120"/>
-                    <DataGridTextColumn Header="Giới tính" Binding="{Binding GioiTinh}" Width="80"/>
-                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding NgaySinh, StringFormat=\{0:dd/MM/yyyy}" Width="120"/>
-                    <DataGridTextColumn Header="Địa chỉ" Binding="{Binding DiaChi}" Width="200"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="120"/>
-                    <DataGridTextColumn Header="Số điện thoại" Binding="{Binding SoDienThoai}" Width="100"/>
-                    <DataGridTextColumn Header="Lớp" Binding="{Binding TenLop}" Width="200"/>
-                    <DataGridTextColumn Header="Khoa" Binding="{Binding TenKhoa}" Width="200"/>
-                    <DataGridTextColumn Header="Trạng Thái" Binding="{Binding TrangThai}" Width="200">
+                    <DataGridTextColumn Header="ID" Binding="{Binding MaSV}" Width="70" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Họ tên" Binding="{Binding HoTen}" Width="120" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Giới tính" Binding="{Binding GioiTinh}" Width="80" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Ngày sinh" Binding="{Binding NgaySinh, StringFormat='\{0:dd/MM/yyyy\}'}" Width="120" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Địa chỉ" Binding="{Binding DiaChi}" Width="200" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="120" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Số điện thoại" Binding="{Binding SoDienThoai}" Width="100" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Lớp" Binding="{Binding TenLop}" Width="200" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Khoa" Binding="{Binding TenKhoa}" Width="200" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Trạng Thái" Binding="{Binding TrangThai}" Width="200" IsReadOnly="True">
                         <DataGridTextColumn.CellStyle>
                             <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
                                 <Style.Triggers>
@@ -56,6 +65,7 @@
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
+            </Grid>
         </Border>
 
         <!-- Action Buttons -->

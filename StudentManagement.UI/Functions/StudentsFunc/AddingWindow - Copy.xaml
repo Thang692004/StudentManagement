@@ -44,7 +44,7 @@
                 <!-- MSSV -->
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="MSSV:" Width="120" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtStudentId" Style="{DynamicResource TextBoxStyle}" Width="200"/>
+                    <TextBox x:Name="txtStudentId" Style="{DynamicResource TextBoxStyle}" Width="200" />
                 </StackPanel>
 
                 <!-- Họ tên -->
@@ -84,8 +84,8 @@
                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Khoa:" Width="120" VerticalAlignment="Center"/>
                     <ComboBox Style="{DynamicResource ComboBoxStyle}" x:Name="txtFaculty" Width="200"
-                              DisplayMemberPath="TenKhoa"
-                              SelectedValuePath="MaKhoa"
+                              DisplayMemberPath="FacultyName"
+                              SelectedValuePath="FacultyCode"
                               SelectionChanged="OnFacultyChanged"
                               IsEditable="True" IsReadOnly="True"
                               Text="--Chọn Khoa--">
@@ -96,8 +96,8 @@
                 <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Lớp:" Width="120" VerticalAlignment="Center"/>
                     <ComboBox Style="{DynamicResource ComboBoxStyle}" x:Name="txtClass" Width="200"
-                              DisplayMemberPath="TenLop"
-                              SelectedValuePath="MaLop"
+                              DisplayMemberPath="ClassName"
+                              SelectedValuePath="ClassCode"
                               IsEditable="True" IsReadOnly="True"
                               Text="--Chọn Lớp--">
 

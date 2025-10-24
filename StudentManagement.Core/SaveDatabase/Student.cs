@@ -6,7 +6,7 @@ namespace StudentManagement.Core
 	    {
             public string MaSV { get; set; }
             public string HoTen { get; set; }
-            public DateTime NgaySinh { get; set; }
+            public DateTime? NgaySinh { get; set; }
             public string GioiTinh { get; set; }
             public string DiaChi { get; set; }
             public string Email { get; set; }
@@ -17,7 +17,7 @@ namespace StudentManagement.Core
             public string TenKhoa { get; set; } // Lấy từ bảng 'khoa'
             public bool Check_TrangThai { get; set; } // Chuyển từ tinyint sang bool
             public string TrangThai { get; set; }
-            public string DateOfBirthFormatted => NgaySinh.ToString("dd/mm/yyyy"); // 
+            public string DateOfBirthFormatted => NgaySinh?.ToString("dd/mm/yyyy"); // 
 	    
 	    }
 }

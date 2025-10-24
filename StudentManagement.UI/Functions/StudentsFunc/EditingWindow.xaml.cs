@@ -161,14 +161,82 @@ namespace StudentManagement.UI.Functions.StudentsFunc
                 }
             }
         }
+        //Kiểm tra dữ liệu sinh viên hợp lệ
+        private bool IsValidStudentData( string hoTen, string gioiTinh,
+        string email, string sdt, string maLop, string maKhoa, string diaChi)
+        {
+            //Kiểm tra các gía trị 
 
+            if (string.IsNullOrWhiteSpace(hoTen))
+            {
+                MessageBox.Show("Họ tên không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // KIỂM TRA GIỚI TÍNH 
+            if (string.IsNullOrWhiteSpace(gioiTinh))
+            {
+                MessageBox.Show("Vui lòng chọn Giới tính.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Báo lỗi của Email
+            if (string.IsNullOrWhiteSpace(email)) // Lỗi rỗng
+            {
+                MessageBox.Show("Email không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            else if (!email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase)) //Lỗi không có @gamil.com
+            {
+                MessageBox.Show("Email thiếu đuôi '@gmail.com'.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            //Báo lỗi của SĐT
+            if (string.IsNullOrWhiteSpace(sdt)) // Lỗi rỗng
+            {
+                MessageBox.Show("Số điện thoại không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            else if (sdt.Length != 10) //Lỗi không đủ 10 số
+            {
+                MessageBox.Show("Số điện thoại phải đủ 10 chữ số.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            else if(!sdt.All(char.IsDigit)) //Lỗi có chữ cái
+            {
+                MessageBox.Show("Số điện thoại chỉ được chứa chữ số.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+
+            if (string.IsNullOrWhiteSpace(diaChi))
+            {
+                MessageBox.Show("Địa chỉ không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // KIỂM TRA LỚP VÀ KHOA 
+            if (string.IsNullOrWhiteSpace(maLop))
+            {
+                MessageBox.Show("Vui lòng chọn Lớp.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(maKhoa))
+            {
+                MessageBox.Show("Vui lòng chọn Khoa.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true; // Tất cả các trường bắt buộc đều hợp lệ
+        }
         // --- NÚT LƯU ---
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (editingStudent == null) return;
 
             // THU THẬP TẤT CẢ GIÁ TRỊ VÀO ĐỐI TƯỢNG (Thủ công)
-            editingStudent.MaSV = txtStudentId.Text;
             editingStudent.HoTen = txtName.Text;
             editingStudent.NgaySinh = dpDateOfBirth.SelectedDate ?? DateTime.MinValue;
             editingStudent.GioiTinh = cbGender.Text;
@@ -179,8 +247,12 @@ namespace StudentManagement.UI.Functions.StudentsFunc
             // Lấy mã từ SelectedValue của ComboBox
             editingStudent.MaKhoa = txtFaculty.SelectedValue?.ToString();
             editingStudent.MaLop = txtClass.SelectedValue?.ToString();
+            if(!IsValidStudentData( editingStudent.HoTen, editingStudent.GioiTinh, editingStudent.Email,
+                editingStudent.SoDienThoai, editingStudent.MaLop, editingStudent.MaKhoa, editingStudent.DiaChi))
+            {
+                return; // Dừng lại nếu dữ liệu không hợp lệ
+            }
 
-            // Check_TrangThai đã được cập nhật bởi CheckBox_StatusChanged
 
             // GỌI HÀM CẬP NHẬT VÀO DATABASE
             try

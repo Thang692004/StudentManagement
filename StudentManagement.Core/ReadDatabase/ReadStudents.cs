@@ -64,7 +64,7 @@ namespace StudentManagement
                         // 3. Đọc dữ liệu và gán vào đối tượng Student đã cập nhật
                         s.MaSV = !reader.IsDBNull(ordMaSV) ? reader.GetString(ordMaSV) : string.Empty;
                         s.HoTen = !reader.IsDBNull(ordHoTen) ? reader.GetString(ordHoTen) : string.Empty;
-                        s.NgaySinh = !reader.IsDBNull(ordNgaySinh) ? reader.GetDateTime(ordNgaySinh) : DateTime.MinValue;
+                        s.NgaySinh = !reader.IsDBNull(ordNgaySinh) ? reader.GetDateTime(ordNgaySinh) : (DateTime?)null;
                         s.GioiTinh = !reader.IsDBNull(ordGioiTinh) ? reader.GetString(ordGioiTinh) : string.Empty;
                         s.DiaChi = !reader.IsDBNull(ordDiaChi) ? reader.GetString(ordDiaChi) : string.Empty;
                         s.Email = !reader.IsDBNull(ordEmail) ? reader.GetString(ordEmail) : string.Empty;

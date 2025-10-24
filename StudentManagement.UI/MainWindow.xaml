@@ -43,14 +43,10 @@
                 <Button Content="Dashboard" Name="BtnDashboard" 
                 Style="{StaticResource MenuButtonStyle}" 
                 Click="BtnDashboard_Click"/>
-
+               
                 <Button Content="Quản lý Sinh viên" Name="BtnStudents" 
                 Style="{StaticResource MenuButtonStyle}" 
                 Click="BtnStudents_Click"/>
-
-                <Button Content="Quản lý Điểm" Name="BtnScores" 
-                Style="{StaticResource MenuButtonStyle}" 
-                Click="BtnScores_Click"/>
 
                 <Button Content="Quản lý Lớp" Name="BtnClasses" 
                 Style="{StaticResource MenuButtonStyle}" 
@@ -59,10 +55,6 @@
                 <Button Content="Quản lý Khoa" Name="BtnDepart" 
                 Style="{StaticResource MenuButtonStyle}" 
                 Click="BtnDepartments_Click"/>
-
-                <Button Content="Quản lý Môn học" Name="BtnSubjects" 
-                Style="{StaticResource MenuButtonStyle}" 
-                Click="BtnSubjects_Click"/>
 
                 <Button Content="Quản lý Tài khoản" Name="BtnAccounts" 
                 Style="{StaticResource MenuButtonStyle}" 
@@ -81,14 +73,16 @@
             <Image Source="Assets/Icons/list.png"
                 Style="{DynamicResource SearchIconStyle}"
                 Width="80" VerticalAlignment="Center" Grid.Column="0"/>
-
+            
+            <!--Tìm kiếm-->
             <TextBox x:Name="SearchBox"
                 Grid.Column="1"
                 Margin="0,0,10,0"
                 FontSize="14" Height="30"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
-                Style="{DynamicResource TextBoxStyle}"/>
+                Style="{DynamicResource TextBoxStyle}"
+                TextChanged="SearchBox_TextChanged_1"/>
 
             <Button Content="Search"
                 Grid.Column="2"

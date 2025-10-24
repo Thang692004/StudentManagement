@@ -47,6 +47,90 @@ namespace StudentManagement.UI.Functions.StudentsFunc
                 mainWindow.MainContent.Content = new StudentsPage();
             }
         }
+        private bool IsValidStudentData( string maSV, string hoTen, string gioiTinh,
+        string email, string sdt, string maLop, string maKhoa, string diaChi)
+        {
+            //KIỂM TRA MÃ SINH VIÊN VÀ HỌ TÊN (BẮT BUỘC) 
+            if (string.IsNullOrWhiteSpace(maSV))
+            {
+                MessageBox.Show("Mã Sinh viên không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            else if (maSV.Length != 8)
+            {
+                MessageBox.Show("Mã Sinh viên phải đủ 8 ký tự.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            else if (!maSV.All(char.IsDigit))
+            {
+                MessageBox.Show("Mã Sinh viên chỉ được chứa chữ số.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(hoTen))
+            {
+                MessageBox.Show("Họ tên không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // KIỂM TRA GIỚI TÍNH 
+            if (string.IsNullOrWhiteSpace(gioiTinh))
+            {
+                MessageBox.Show("Vui lòng chọn Giới tính.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Báo lỗi của Email
+            if (string.IsNullOrWhiteSpace(email)) // Lỗi rỗng
+            {
+                MessageBox.Show("Email không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            else if (!email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase)) //Lỗi không có @gamil.com
+            {
+                MessageBox.Show("Email thiếu đuôi '@gmail.com'.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            //Báo lỗi của SĐT
+            if (string.IsNullOrWhiteSpace(sdt)) // Lỗi rỗng
+            {
+                MessageBox.Show("Số điện thoại không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            else if (sdt.Length != 10) //Lỗi không đủ 10 số
+            {
+                MessageBox.Show("Số điện thoại phải đủ 10 chữ số.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            else if (!sdt.All(char.IsDigit)) //Lỗi có chữ cái
+            {
+                MessageBox.Show("Số điện thoại chỉ được chứa chữ số.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+
+            if (string.IsNullOrWhiteSpace(diaChi))
+            {
+                MessageBox.Show("Địa chỉ không được để trống.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // KIỂM TRA LỚP VÀ KHOA 
+            if (string.IsNullOrWhiteSpace(maLop))
+            {
+                MessageBox.Show("Vui lòng chọn Lớp.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(maKhoa))
+            {
+                MessageBox.Show("Vui lòng chọn Khoa.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            return true; // Tất cả các trường bắt buộc đều hợp lệ
+        }
 
         // --- NÚT LƯU ---
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -56,9 +140,10 @@ namespace StudentManagement.UI.Functions.StudentsFunc
 
             Student newStudent = new Student
             {
+                
                 MaSV = txtStudentId.Text,
                 HoTen = txtName.Text,
-                NgaySinh = dpDateOfBirth.SelectedDate ?? DateTime.MinValue,
+                NgaySinh = dpDateOfBirth.SelectedDate.Value,
                 GioiTinh = (cbGender.SelectedItem as ComboBoxItem)?.Content.ToString(),
                 Email = txtEmail.Text,
                 SoDienThoai = txtSdt.Text,
@@ -68,7 +153,17 @@ namespace StudentManagement.UI.Functions.StudentsFunc
                 // GÁN GIÁ TRỊ TRẠNG THÁI
                 Check_TrangThai = isStudying
             };
+            if (!IsValidStudentData(newStudent.MaSV, newStudent.HoTen, newStudent.GioiTinh, newStudent.Email, newStudent.SoDienThoai,
+                newStudent.MaLop, newStudent.MaKhoa, newStudent.DiaChi))
+            {
+                return; // Dừng lại nếu dữ liệu không hợp lệ
+            }
 
+            if (newStudent.NgaySinh == DateTime.MinValue)
+            {
+                MessageBox.Show("Vui lòng chọn Ngày sinh hợp lệ.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             try
             {
                 // Gọi dịch vụ INSERT
@@ -147,5 +242,6 @@ namespace StudentManagement.UI.Functions.StudentsFunc
             }
         }
 
+       
     }
 }

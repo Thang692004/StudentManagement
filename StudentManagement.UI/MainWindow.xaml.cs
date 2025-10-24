@@ -31,11 +31,11 @@ public partial class MainWindow : Window
     private void BtnStudents_Click(object sender, RoutedEventArgs e)
     {
         MainContent.Content = new StudentsPage();
-    }
-
-    private void BtnScores_Click(object sender, RoutedEventArgs e)
-    {
-        MainContent.Content = new ScoresPage();
+        if (MainContent.Content is ISearchableContent searchableContent)
+        {
+            // Gọi PerformSearch() với nội dung hiện tại của SearchBox.
+            searchableContent.PerformSearch(SearchBox.Text);
+        }
     }
 
     private void BtnClasses_Click(object sender, RoutedEventArgs e)
@@ -46,10 +46,7 @@ public partial class MainWindow : Window
     {
         MainContent.Content = new DepartmentPage();
     }
-    private void BtnSubjects_Click(object sender, RoutedEventArgs e)
-    {
-        MainContent.Content = new SubjectPage();
-    }
+
     private void BtnAccounts_Click(object sender, RoutedEventArgs e)
     {
         MainContent.Content = new AccountsPage();
@@ -58,15 +55,7 @@ public partial class MainWindow : Window
     {
         MainContent.Content = new ProfilePage();
     }
-    private void Search_Click(object sender, RoutedEventArgs e)
-    {
-        string query = SearchBox.Text.Trim();
-        if (!string.IsNullOrEmpty(query))
-        {
-            MessageBox.Show($"Tìm kiếm: {query}", "Search");
-            // TODO: gọi logic filter dữ liệu ở MainContent
-        }
-    }
+    
     // Khi ToggleButton được check
     private void ProfileToggle_Checked(object sender, RoutedEventArgs e)
     {
@@ -82,5 +71,21 @@ public partial class MainWindow : Window
     private void ProfileMenu_Closed(object sender, RoutedEventArgs e)
     {
         ProfileToggle.IsChecked = false;
+    }
+
+    // Chức năng tìm kiếm
+    private void SearchBox_TextChanged_1(object sender, TextChangedEventArgs e)
+    {
+        string query = SearchBox.Text.Trim();
+        if (MainContent.Content is ISearchableContent searchableContent)
+        {
+            // GỌI: Thực hiện tìm kiếm trên User Control đó
+            searchableContent.PerformSearch(query);
+        }
+    }
+
+    private void Search_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using StudentManagement.Core;
 using System;
 
@@ -14,21 +13,30 @@ namespace StudentManagement
             using (var conn = new MySqlConnection(connStr))
             {
                 conn.Open();
-                // Đã thêm cột TrangThai vào danh sách cột và VALUES
-                string query = @"INSERT INTO sinh_vien (MaSV, HoTen, NgaySinh, GioiTinh, Email, SoDienThoai, MaLop, MaKhoa, TrangThai) 
-                                 VALUES (@MaSV, @HoTen, @NgaySinh, @GioiTinh, @Email, @SoDienThoai, @MaLop, @MaKhoa, @TrangThai)";
+
+                // ✅ SỬA ĐỔI: Đã thêm cột 'DiaChi' vào danh sách cột và VALUES
+                string query = @"INSERT INTO sinh_vien (MaSV, HoTen, NgaySinh, GioiTinh, Email, SoDienThoai, MaLop, MaKhoa, DiaChi, TrangThai) 
+                                 VALUES (@MaSV, @HoTen, @NgaySinh, @GioiTinh, @Email, @SoDienThoai, @MaLop, @MaKhoa, @DiaChi, @TrangThai)";
 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     // Thêm các tham số cho lệnh INSERT
                     cmd.Parameters.AddWithValue("@MaSV", student.MaSV);
                     cmd.Parameters.AddWithValue("@HoTen", student.HoTen);
-                    cmd.Parameters.AddWithValue("@NgaySinh", student.NgaySinh);
+
+                    // NgaySinh: Đảm bảo được truyền đi
+                    cmd.Parameters.Add("@NgaySinh", MySqlDbType.Date).Value = student.NgaySinh;
+
                     cmd.Parameters.AddWithValue("@GioiTinh", student.GioiTinh);
                     cmd.Parameters.AddWithValue("@Email", student.Email);
                     cmd.Parameters.AddWithValue("@SoDienThoai", student.SoDienThoai);
                     cmd.Parameters.AddWithValue("@MaLop", student.MaLop);
                     cmd.Parameters.AddWithValue("@MaKhoa", student.MaKhoa);
+
+                    // ✅ THÊM THAM SỐ DIACHI
+                    cmd.Parameters.AddWithValue("@DiaChi", student.DiaChi);
+
+                    // TrangThai: Đảm bảo sử dụng Check_TrangThai (bool) và nó sẽ ánh xạ thành 0/1 (tinyint)
                     cmd.Parameters.AddWithValue("@TrangThai", student.Check_TrangThai);
 
                     cmd.ExecuteNonQuery();

@@ -1,5 +1,9 @@
-﻿using System;
+﻿using StudentManagement.Core;
+using StudentManagement.UI.Functions.StudentsFunc;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,17 +16,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using StudentManagement.UI.Functions.StudentsFunc;
-using StudentManagement.Core;
 
 namespace StudentManagement.UI.Pages
 {
     /// <summary>
     /// Interaction logic for Page1.xaml
     /// </summary>
-    public partial class StudentsPage : UserControl
+    public partial class StudentsPage : UserControl, ISearchableContent
     {
         ReadStudents read = new ReadStudents();
+        private ObservableCollection<Student> _allStudents;
+        private ICollectionView _studentView;
         public StudentsPage()
         {
             InitializeComponent();
@@ -33,22 +37,59 @@ namespace StudentManagement.UI.Pages
             try
             {
                 List<Student> students = read.GetStudents();
-                System.Diagnostics.Debug.WriteLine($"Số lượng sinh viên lấy được: {students.Count}");
-                foreach (var s in students)
-                {
-                    // Cập nhật sinh viên
-                    System.Diagnostics.Debug.WriteLine(
-                        $"{s.MaSV} - {s.HoTen} - {s.NgaySinh:dd/MM/yyyy} - {s.GioiTinh} - {s.Email} - {s.SoDienThoai} - {s.DiaChi} - {s.TenLop} - {s.TenKhoa}"
-                    );
-                }
-
-                StudentsDataGrid.ItemsSource = students;
+                _allStudents = new ObservableCollection<Student>(students);
+                _studentView = CollectionViewSource.GetDefaultView(_allStudents);
+                StudentsDataGrid.ItemsSource = _studentView;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Lỗi khi load students: {ex.Message}");
                 MessageBox.Show("Có lỗi xảy ra khi tải danh sách sinh viên.",
                                 "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        public void PerformSearch(string searchText)
+        {
+            // Kiểm tra null
+            if (_studentView == null) return;
+
+            string query = searchText.ToLower().Trim();
+
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                // CHỈ XÓA BỘ LỌC
+                _studentView.Filter = null;
+            }
+            else
+            {
+                // THIẾT LẬP BỘ LỌC
+                _studentView.Filter = item =>
+                {
+                    var student = item as Student;
+                    if (student == null) return false;
+
+                    return student.MaSV.ToLower().Contains(query) ||
+                           student.HoTen.ToLower().Contains(query) ||
+                           student.DiaChi.ToLower().Contains(query) ||
+                           student.Email.ToLower().Contains(query) ||
+                           student.SoDienThoai.ToLower().Contains(query) ||
+                           (student.TenLop ?? "").ToLower().Contains(query) ||
+                           (student.TenKhoa ?? "").ToLower().Contains(query);
+                };
+            }
+
+            _studentView.Refresh();
+            if (_studentView.IsEmpty && !string.IsNullOrWhiteSpace(query))
+            {
+                // Không có kết quả VÀ người dùng đã gõ thứ gì đó
+                StudentsDataGrid.Visibility = Visibility.Collapsed;
+                NoResultsText.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                // Có kết quả (hoặc chuỗi tìm kiếm rỗng, nên hiển thị DataGrid)
+                StudentsDataGrid.Visibility = Visibility.Visible;
+                NoResultsText.Visibility = Visibility.Collapsed;
             }
         }
         private void BtnAdding_Click(object sender, RoutedEventArgs e)
