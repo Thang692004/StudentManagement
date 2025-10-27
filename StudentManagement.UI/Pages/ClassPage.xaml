@@ -93,23 +93,29 @@
                                         </Grid>
                                     </ScrollViewer>
                                 </Border>
+                                <DataGrid x:Name="ClassDataGrid"
+                                    AutoGenerateColumns="True"
+                                    SelectionChanged="ClassDataGrid_SelectionChanged"
+                                    Height="200"
+                                    Margin="0,0,0,10"/>       
+
 
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                                    <Button Width="120" Margin="0,0,10,0" Background="#27AE60" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Add_Click" Width="120" Margin="0,0,10,0" Background="#27AE60" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="\Assets\Icons\add-symbol.png" Height="18"/>
                                             <TextBlock Text="Thêm" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
 
-                                    <Button Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Update_Click" Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Icons/modify-icon.png" Height="18" Margin="0,0,5,0"/>
                                             <TextBlock Text="Sửa" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
 
-                                    <Button Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Delete_Click" Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Icons/delete.png" Height="18" Margin="0,0,5,0"/>
                                             <TextBlock Text="Xóa" VerticalAlignment="Center"/>
