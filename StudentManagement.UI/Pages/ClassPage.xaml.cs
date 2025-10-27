@@ -9,7 +9,7 @@ namespace StudentManagement.UI.Pages
 {
     public partial class ClassPage : UserControl
     {
-        private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=your_password;";
+        private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=thang692004;";
 
         public ClassPage()
         {
@@ -88,7 +88,7 @@ namespace StudentManagement.UI.Pages
         }
 
         // Thêm lớp
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void Add_Class_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
             string className = txtNameClass.Text.Trim();
@@ -125,7 +125,7 @@ namespace StudentManagement.UI.Pages
         }
 
         // Sửa lớp
-        private void Update_Click(object sender, RoutedEventArgs e)
+        private void Update_Class_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
             string className = txtNameClass.Text.Trim();
@@ -156,7 +156,7 @@ namespace StudentManagement.UI.Pages
         }
 
         // Xóa lớp
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void Delete_Class_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
 
