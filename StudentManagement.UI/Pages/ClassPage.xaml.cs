@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿// Các using statement giữ nguyên...
+using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using System.Windows;
@@ -18,7 +19,7 @@ namespace StudentManagement.UI.Pages
             LoadClasses();
         }
 
-        // Xử lý cuộn ngang ScrollViewer
+        // Xử lý cuộn ngang ScrollViewer - Giữ nguyên
         private void svForm_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             var sv = (ScrollViewer)sender;
@@ -29,7 +30,7 @@ namespace StudentManagement.UI.Pages
             e.Handled = true;
         }
 
-        // Load danh sách khoa vào ComboBox
+        // Load danh sách khoa vào ComboBox - Giữ nguyên
         private void LoadDepartments()
         {
             try
@@ -72,7 +73,8 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT l.MaLop, l.TenLop, k.TenKhoa FROM lop l INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa";
+                    // SỬA: Thêm l.MaKhoa vào câu truy vấn
+                    string query = "SELECT l.MaLop, l.TenLop, l.MaKhoa, k.TenKhoa FROM lop l INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa";
                     using (var adapter = new MySqlDataAdapter(query, conn))
                     {
                         DataTable dt = new DataTable();
@@ -88,7 +90,8 @@ namespace StudentManagement.UI.Pages
         }
 
         // Thêm lớp
-        private void Add_Class_Click(object sender, RoutedEventArgs e)
+        // SỬA: Đổi tên từ Add_Class_Click thành Add_Click
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
             string className = txtNameClass.Text.Trim();
@@ -125,7 +128,8 @@ namespace StudentManagement.UI.Pages
         }
 
         // Sửa lớp
-        private void Update_Class_Click(object sender, RoutedEventArgs e)
+        // SỬA: Đổi tên từ Update_Class_Click thành Update_Click
+        private void Update_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
             string className = txtNameClass.Text.Trim();
@@ -156,7 +160,8 @@ namespace StudentManagement.UI.Pages
         }
 
         // Xóa lớp
-        private void Delete_Class_Click(object sender, RoutedEventArgs e)
+        // SỬA: Đổi tên từ Delete_Class_Click thành Delete_Click
+        private void Delete_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
 
@@ -198,9 +203,10 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT l.MaLop, l.TenLop, k.TenKhoa " +
-                                   "FROM lop l INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa " +
-                                   "WHERE l.MaLop LIKE @text OR l.TenLop LIKE @text";
+                    // SỬA: Thêm l.MaKhoa vào câu truy vấn
+                    string query = "SELECT l.MaLop, l.TenLop, l.MaKhoa, k.TenKhoa " +
+                                     "FROM lop l INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa " +
+                                     "WHERE l.MaLop LIKE @text OR l.TenLop LIKE @text";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@text", "%" + queryText + "%");
@@ -229,10 +235,12 @@ namespace StudentManagement.UI.Pages
             txtClassId.Text = row["MaLop"].ToString();
             txtNameClass.Text = row["TenLop"].ToString();
 
-            // Chọn Khoa trong ComboBox
+            // SỬA: Sửa logic chọn Khoa trong ComboBox
+            string maKhoaFromGrid = row["MaKhoa"].ToString();
             foreach (ComboBoxItem item in txtDepartID.Items)
             {
-                if (item.Content.ToString() == row["TenKhoa"].ToString())
+                // So sánh Mã Khoa với Mã Khoa
+                if (item.Content.ToString() == maKhoaFromGrid)
                 {
                     txtDepartID.SelectedItem = item;
                     break;

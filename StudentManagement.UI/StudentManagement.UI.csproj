@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StudentManagement.Core\StudentManagement.Core.csproj" />
+    <ProjectReference Include="..\StudentManagement.Data\StudentManagement.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\Icons\add-symbol.png" />
     <Resource Include="Assets\Icons\delete.png" />
     <Resource Include="Assets\Icons\dotted.jpg" />

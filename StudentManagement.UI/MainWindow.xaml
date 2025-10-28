@@ -30,9 +30,9 @@
                 <Image Source="Assets/Icons/logo.png" VerticalAlignment="Center" Width="200" Height="100"></Image>
 
                 <!-- Vai trò -->
-                <TextBlock Text="Admin"  
-                           FontSize="14" 
-                           HorizontalAlignment="Center" 
+                <TextBlock x:Name="UserRoleText" Text="Admin"
+                           FontSize="14"
+                           HorizontalAlignment="Center"
                            Margin="0,5,0,0"/>
             </StackPanel>
         </Grid>

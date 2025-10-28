@@ -151,7 +151,7 @@
                                 <!-- Bảng dữ liệu -->
                                 <Border CornerRadius="8" Background="White" Padding="10"
                                 BorderBrush="#BDC3C7" BorderThickness="1">
-                                    <DataGrid x:Name="DepartmentDataGrid"
+                                    <DataGrid x:Name="StudentsDataGrid"
                                       AutoGenerateColumns="False"
                                       HeadersVisibility="Column"
                                       CanUserAddRows="False"
@@ -159,7 +159,7 @@
                                       GridLinesVisibility="None"
                                       RowHeight="35"
                                       Height="300"
-                                      FontSize="14" SelectionChanged="StudentsDataGrid_SelectionChanged">
+                                      FontSize="14">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Mã Khoa" Binding="{Binding MaKhoa}" Width="*"/>
                                             <DataGridTextColumn Header="Tên Khoa" Binding="{Binding TenKhoa}" Width="2*"/>
