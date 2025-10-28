@@ -93,29 +93,38 @@
                                         </Grid>
                                     </ScrollViewer>
                                 </Border>
-                                <DataGrid x:Name="ClassDataGrid"
+                                <DataGrid x:Name="ButtonClassDataGrid"
                                     AutoGenerateColumns="True"
                                     SelectionChanged="ClassDataGrid_SelectionChanged"
-                                    Height="200"
-                                    Margin="0,0,0,10"/>       
+                                    Height="3"
+                                    Margin="0,0,0,10" RenderTransformOrigin="0.5,0.5">
+                                    <DataGrid.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleY="-1"/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </DataGrid.RenderTransform>
+                                </DataGrid>
 
 
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                                    <Button Click="Add_Click" Width="120" Margin="0,0,10,0" Background="#27AE60" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Add_Class_Click" Width="120" Margin="0,0,10,0" Background="#27AE60" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="\Assets\Icons\add-symbol.png" Height="18"/>
                                             <TextBlock Text="Thêm" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
 
-                                    <Button Click="Update_Click" Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Update_Class_Click" Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Icons/modify-icon.png" Height="18" Margin="0,0,5,0"/>
                                             <TextBlock Text="Sửa" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
 
-                                    <Button Click="Delete_Click" Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Delete_Class_Click" Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Icons/delete.png" Height="18" Margin="0,0,5,0"/>
                                             <TextBlock Text="Xóa" VerticalAlignment="Center"/>
@@ -159,12 +168,12 @@
                             </Grid>
 
                             <StackPanel Margin="10" Background="#F9F9F9">
-                                
+
 
                                 <!-- Bảng dữ liệu -->
                                 <Border CornerRadius="8" Background="White" Padding="10"
                                 BorderBrush="#BDC3C7" BorderThickness="1">
-                                    <DataGrid x:Name="StudentsDataGrid"
+                                    <DataGrid x:Name="ClassDataGrid"
                                       AutoGenerateColumns="False"
                                       HeadersVisibility="Column"
                                       CanUserAddRows="False"
@@ -172,11 +181,12 @@
                                       GridLinesVisibility="None"
                                       RowHeight="35"
                                       Height="300"
-                                      FontSize="14">
+                                      FontSize="14" SelectionChanged="ClassDataGrid_SelectionChanged">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Mã Lớp" Binding="{Binding MaLop}" Width="*"/>
                                             <DataGridTextColumn Header="Tên Lớp" Binding="{Binding TenLop}" Width="2*"/>
-                                            <DataGridTextColumn Header="Mã Khoa" Binding="{Binding MaKhoa}" Width="2*"/>
+
+                                            <DataGridTextColumn Header="Ten Khoa " Binding="{Binding TenKhoa }" Width="2*"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Border>
