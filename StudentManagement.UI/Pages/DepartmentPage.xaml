@@ -151,7 +151,7 @@
                                 <!-- Bảng dữ liệu -->
                                 <Border CornerRadius="8" Background="White" Padding="10"
                                 BorderBrush="#BDC3C7" BorderThickness="1">
-                                    <DataGrid x:Name="StudentsDataGrid"
+                                    <DataGrid x:Name="DepartmentDataGrid"
                                       AutoGenerateColumns="False"
                                       HeadersVisibility="Column"
                                       CanUserAddRows="False"

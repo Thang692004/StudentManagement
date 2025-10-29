@@ -12,7 +12,7 @@ namespace StudentManagement.UI.Pages
     /// </summary>
     public partial class DepartmentPage : UserControl
     {
-        private string connectionString = "Server=127.0.0.1;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
+        private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=;"; 
 
         public DepartmentPage()
         {
@@ -39,9 +39,8 @@ namespace StudentManagement.UI.Pages
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT MaKhoa, TenKhoa FROM khoa";
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    string query = "SELECT MaKhoa, TenKhoa FROM khoa"; // Truy vấn bảng "khoa"
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
                     DepartmentDataGrid.ItemsSource = dt.DefaultView;
@@ -53,7 +52,6 @@ namespace StudentManagement.UI.Pages
             }
         }
 
-        // Thêm Khoa
         private void Add_Department_Click(object sender, RoutedEventArgs e)
         {
             string maKhoa = txtDepartmentId.Text.Trim();
@@ -61,7 +59,7 @@ namespace StudentManagement.UI.Pages
 
             if (string.IsNullOrEmpty(maKhoa) || string.IsNullOrEmpty(tenKhoa))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin Khoa.", "Thông báo");
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin Khoa.");
                 return;
             }
 
@@ -76,8 +74,7 @@ namespace StudentManagement.UI.Pages
                     cmd.Parameters.AddWithValue("@TenKhoa", tenKhoa);
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Thêm Khoa thành công!");
-                    ClearForm();
-                    LoadDepartments();
+                    LoadDepartments(); // Tải lại dữ liệu
                 }
             }
             catch (Exception ex)
@@ -91,16 +88,16 @@ namespace StudentManagement.UI.Pages
         {
             if (DepartmentDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Vui lòng chọn Khoa cần sửa.");
+                MessageBox.Show("Vui lòng chọn một Khoa từ danh sách để sửa.", "Chưa chọn Khoa", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             string maKhoa = txtDepartmentId.Text.Trim();
             string tenKhoa = txtNameDepart.Text.Trim();
 
-            if (string.IsNullOrEmpty(maKhoa) || string.IsNullOrEmpty(tenKhoa))
+            if (string.IsNullOrEmpty(tenKhoa))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin Khoa.", "Thông báo");
+                MessageBox.Show("Tên Khoa không được để trống.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -128,7 +125,7 @@ namespace StudentManagement.UI.Pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cập nhật Khoa: " + ex.Message);
+                MessageBox.Show("Lỗi khi cập nhật Khoa: " + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -170,11 +167,13 @@ namespace StudentManagement.UI.Pages
         // Khi chọn một dòng trên DataGrid
         private void DepartmentDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (DepartmentDataGrid.SelectedItem != null)
+            if (DepartmentDataGrid.SelectedItem is DataRowView row)
             {
-                DataRowView row = (DataRowView)DepartmentDataGrid.SelectedItem;
                 txtDepartmentId.Text = row["MaKhoa"].ToString();
                 txtNameDepart.Text = row["TenKhoa"].ToString();
+
+                // KHÓA ô Mã Khoa lại khi người dùng chọn một dòng để sửa
+                txtDepartmentId.IsReadOnly = true;
             }
         }
 
@@ -184,6 +183,8 @@ namespace StudentManagement.UI.Pages
             txtDepartmentId.Text = "";
             txtNameDepart.Text = "";
             DepartmentDataGrid.SelectedItem = null;
+            txtDepartmentId.IsReadOnly = false;
+            txtDepartmentId.Focus();
         }
 
         // Search Khoa

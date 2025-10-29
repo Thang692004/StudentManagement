@@ -51,6 +51,19 @@ INSERT INTO `classes` (`class_code`, `class_name`, `faculty`, `year`) VALUES
 -- Table structure for table `logs`
 --
 
+CREATE TABLE `khoa` (
+  `MaKhoa` varchar(20) NOT NULL,
+  `TenKhoa` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `khoa`
+  ADD PRIMARY KEY (`MaKhoa`);
+
+INSERT INTO `khoa` (`MaKhoa`, `TenKhoa`) VALUES
+('CNTT', 'Công nghệ thông tin'),
+('KT', 'Kinh tế - Kế toán'),
+('DL', 'Du lịch');
+
 CREATE TABLE `logs` (
   `log_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,

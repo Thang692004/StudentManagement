@@ -10,7 +10,8 @@ namespace StudentManagement.UI.Pages
 {
     public partial class ClassPage : UserControl
     {
-        private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=thang692004;";
+        // SỬA: Đảm bảo chuỗi kết nối dùng đúng mật khẩu (để trống)
+        private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=;";
 
         public ClassPage()
         {
@@ -73,8 +74,8 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    // SỬA: Thêm l.MaKhoa vào câu truy vấn
-                    string query = "SELECT l.MaLop, l.TenLop, l.MaKhoa, k.TenKhoa FROM lop l INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa";
+                    // SỬA: Đổi tên bảng từ "lop" thành "classes"
+                    string query = "SELECT l.class_code AS MaLop, l.class_name AS TenLop, l.faculty AS MaKhoa FROM classes l";
                     using (var adapter = new MySqlDataAdapter(query, conn))
                     {
                         DataTable dt = new DataTable();
@@ -90,8 +91,7 @@ namespace StudentManagement.UI.Pages
         }
 
         // Thêm lớp
-        // SỬA: Đổi tên từ Add_Class_Click thành Add_Click
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void Add_Class_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
             string className = txtNameClass.Text.Trim();
@@ -109,7 +109,8 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "INSERT INTO lop (MaLop, TenLop, MaKhoa) VALUES (@id, @name, @depart)";
+                    // SỬA: Đổi tên bảng từ "lop" thành "classes" và các cột tương ứng
+                    string query = "INSERT INTO classes (class_code, class_name, faculty) VALUES (@id, @name, @depart)";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", classId);
@@ -128,8 +129,7 @@ namespace StudentManagement.UI.Pages
         }
 
         // Sửa lớp
-        // SỬA: Đổi tên từ Update_Class_Click thành Update_Click
-        private void Update_Click(object sender, RoutedEventArgs e)
+        private void Update_Class_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
             string className = txtNameClass.Text.Trim();
@@ -141,7 +141,8 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "UPDATE lop SET TenLop=@name, MaKhoa=@depart WHERE MaLop=@id";
+                    // SỬA: Đổi tên bảng từ "lop" thành "classes" và các cột tương ứng
+                    string query = "UPDATE classes SET class_name=@name, faculty=@depart WHERE class_code=@id";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", classId);
@@ -160,8 +161,7 @@ namespace StudentManagement.UI.Pages
         }
 
         // Xóa lớp
-        // SỬA: Đổi tên từ Delete_Class_Click thành Delete_Click
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void Delete_Class_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
 
@@ -176,7 +176,8 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "DELETE FROM lop WHERE MaLop=@id";
+                    // SỬA: Đổi tên bảng từ "lop" thành "classes" và các cột tương ứng
+                    string query = "DELETE FROM classes WHERE class_code=@id";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", classId);
@@ -193,6 +194,7 @@ namespace StudentManagement.UI.Pages
         }
 
         // Tìm kiếm
+        // SỬA: Đổi tên hàm từ "Search_Class_Click" thành "Search_Click"
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             string queryText = SearchBox.Text.Trim();
@@ -203,10 +205,10 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    // SỬA: Thêm l.MaKhoa vào câu truy vấn
-                    string query = "SELECT l.MaLop, l.TenLop, l.MaKhoa, k.TenKhoa " +
-                                     "FROM lop l INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa " +
-                                     "WHERE l.MaLop LIKE @text OR l.TenLop LIKE @text";
+                    // SỬA: Đổi tên bảng từ "lop" thành "classes" và các cột tương ứng
+                    string query = "SELECT class_code AS MaLop, class_name AS TenLop, faculty AS MaKhoa " +
+                                     "FROM classes " +
+                                     "WHERE class_code LIKE @text OR class_name LIKE @text";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@text", "%" + queryText + "%");
