@@ -17,14 +17,14 @@ namespace StudentManagement.Core
             _readUsers = new ReadUsers();
         }
 
-        public string? AuthenticateUser(string username, string password)
+        public string? AuthenticateUser(string TenDangNhap, string MatKhau)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(TenDangNhap) || string.IsNullOrEmpty(MatKhau))
             {
                 return null;
             }
 
-            return _readUsers.GetUserRoleByCredentials(username, password);
+            return _readUsers.GetUserRoleByCredentials(TenDangNhap, MatKhau);
         }
     }
 }

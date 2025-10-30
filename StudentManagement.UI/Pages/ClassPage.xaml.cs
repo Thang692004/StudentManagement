@@ -1,4 +1,4 @@
-﻿// Các using statement giữ nguyên...
+﻿// Các using statement
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
@@ -10,7 +10,6 @@ namespace StudentManagement.UI.Pages
 {
     public partial class ClassPage : UserControl
     {
-        // SỬA: Đảm bảo chuỗi kết nối dùng đúng mật khẩu (để trống)
         private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=;";
 
         public ClassPage()
@@ -20,7 +19,7 @@ namespace StudentManagement.UI.Pages
             LoadClasses();
         }
 
-        // Xử lý cuộn ngang ScrollViewer - Giữ nguyên
+        // ===== Scroll ngang =====
         private void svForm_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             var sv = (ScrollViewer)sender;
@@ -31,7 +30,7 @@ namespace StudentManagement.UI.Pages
             e.Handled = true;
         }
 
-        // Load danh sách khoa vào ComboBox - Giữ nguyên
+        // ===== Nạp danh sách Khoa vào ComboBox =====
         private void LoadDepartments()
         {
             try
@@ -41,32 +40,30 @@ namespace StudentManagement.UI.Pages
                     conn.Open();
                     string query = "SELECT MaKhoa, TenKhoa FROM khoa";
                     using (var cmd = new MySqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        using (var reader = cmd.ExecuteReader())
+                        txtDepartID.Items.Clear();
+                        while (reader.Read())
                         {
-                            txtDepartID.Items.Clear();
-                            while (reader.Read())
+                            ComboBoxItem item = new ComboBoxItem
                             {
-                                ComboBoxItem item = new ComboBoxItem
-                                {
-                                    Content = reader["MaKhoa"].ToString(),
-                                    Tag = reader["TenKhoa"].ToString()
-                                };
-                                txtDepartID.Items.Add(item);
-                            }
-                            if (txtDepartID.Items.Count > 0)
-                                txtDepartID.SelectedIndex = 0;
+                                Content = reader["MaKhoa"].ToString(),
+                                Tag = reader["TenKhoa"].ToString()
+                            };
+                            txtDepartID.Items.Add(item);
                         }
+                        if (txtDepartID.Items.Count > 0)
+                            txtDepartID.SelectedIndex = 0;
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Lỗi tải Khoa: " + ex.Message);
             }
         }
 
-        // Load danh sách lớp vào DataGrid
+        // ===== Nạp danh sách Lớp vào DataGrid =====
         private void LoadClasses()
         {
             try
@@ -74,8 +71,7 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    // SỬA: Đổi tên bảng từ "lop" thành "classes"
-                    string query = "SELECT l.class_code AS MaLop, l.class_name AS TenLop, l.faculty AS MaKhoa FROM classes l";
+                    string query = "SELECT MaLop, TenLop, MaKhoa FROM lop";
                     using (var adapter = new MySqlDataAdapter(query, conn))
                     {
                         DataTable dt = new DataTable();
@@ -86,21 +82,25 @@ namespace StudentManagement.UI.Pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Lỗi tải danh sách lớp: " + ex.Message);
             }
         }
 
-        // Thêm lớp
+        // ====== Nút Thêm ======
         private void Add_Class_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
             string className = txtNameClass.Text.Trim();
-            if (txtDepartID.SelectedItem == null) return;
+            if (txtDepartID.SelectedItem == null)
+            {
+                MessageBox.Show("Vui lòng chọn Khoa!");
+                return;
+            }
             string departId = ((ComboBoxItem)txtDepartID.SelectedItem).Content.ToString();
 
             if (string.IsNullOrEmpty(classId) || string.IsNullOrEmpty(className))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin lớp!");
                 return;
             }
 
@@ -109,8 +109,7 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    // SỬA: Đổi tên bảng từ "lop" thành "classes" và các cột tương ứng
-                    string query = "INSERT INTO classes (class_code, class_name, faculty) VALUES (@id, @name, @depart)";
+                    string query = "INSERT INTO lop (MaLop, TenLop, MaKhoa) VALUES (@id, @name, @depart)";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", classId);
@@ -119,55 +118,31 @@ namespace StudentManagement.UI.Pages
                         cmd.ExecuteNonQuery();
                     }
                 }
-                MessageBox.Show("Thêm lớp thành công!");
+                MessageBox.Show("✅ Thêm lớp thành công!");
+                ClearForm();
                 LoadClasses();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("❌ Lỗi thêm lớp: " + ex.Message);
             }
         }
 
-        // Sửa lớp
+        // ====== Nút Sửa ======
         private void Update_Class_Click(object sender, RoutedEventArgs e)
         {
             string classId = txtClassId.Text.Trim();
             string className = txtNameClass.Text.Trim();
-            if (txtDepartID.SelectedItem == null) return;
+            if (txtDepartID.SelectedItem == null)
+            {
+                MessageBox.Show("Vui lòng chọn Khoa!");
+                return;
+            }
             string departId = ((ComboBoxItem)txtDepartID.SelectedItem).Content.ToString();
-
-            try
-            {
-                using (var conn = new MySqlConnection(connectionString))
-                {
-                    conn.Open();
-                    // SỬA: Đổi tên bảng từ "lop" thành "classes" và các cột tương ứng
-                    string query = "UPDATE classes SET class_name=@name, faculty=@depart WHERE class_code=@id";
-                    using (var cmd = new MySqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@id", classId);
-                        cmd.Parameters.AddWithValue("@name", className);
-                        cmd.Parameters.AddWithValue("@depart", departId);
-                        int rows = cmd.ExecuteNonQuery();
-                        MessageBox.Show(rows > 0 ? "Cập nhật thành công!" : "Không tìm thấy lớp.");
-                    }
-                }
-                LoadClasses();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        // Xóa lớp
-        private void Delete_Class_Click(object sender, RoutedEventArgs e)
-        {
-            string classId = txtClassId.Text.Trim();
 
             if (string.IsNullOrEmpty(classId))
             {
-                MessageBox.Show("Vui lòng nhập mã lớp cần xóa!");
+                MessageBox.Show("Vui lòng chọn lớp cần sửa!");
                 return;
             }
 
@@ -176,39 +151,77 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    // SỬA: Đổi tên bảng từ "lop" thành "classes" và các cột tương ứng
-                    string query = "DELETE FROM classes WHERE class_code=@id";
+                    string query = "UPDATE lop SET TenLop=@name, MaKhoa=@depart WHERE MaLop=@id";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", classId);
+                        cmd.Parameters.AddWithValue("@name", className);
+                        cmd.Parameters.AddWithValue("@depart", departId);
                         int rows = cmd.ExecuteNonQuery();
-                        MessageBox.Show(rows > 0 ? "Xóa thành công!" : "Không tìm thấy lớp.");
+                        MessageBox.Show(rows > 0 ? "✅ Cập nhật thành công!" : "❌ Không tìm thấy lớp cần sửa.");
                     }
                 }
+                ClearForm();
                 LoadClasses();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("❌ Lỗi cập nhật: " + ex.Message);
             }
         }
 
-        // Tìm kiếm
-        // SỬA: Đổi tên hàm từ "Search_Class_Click" thành "Search_Click"
-        private void Search_Click(object sender, RoutedEventArgs e)
+        // ====== Nút Xóa ======
+        private void Delete_Class_Click(object sender, RoutedEventArgs e)
         {
-            string queryText = SearchBox.Text.Trim();
-            if (string.IsNullOrEmpty(queryText)) { LoadClasses(); return; }
+            string classId = txtClassId.Text.Trim();
+            if (string.IsNullOrEmpty(classId))
+            {
+                MessageBox.Show("Vui lòng nhập mã lớp cần xóa!");
+                return;
+            }
+
+            var confirm = MessageBox.Show($"Bạn có chắc muốn xóa lớp {classId}?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (confirm != MessageBoxResult.Yes) return;
 
             try
             {
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    // SỬA: Đổi tên bảng từ "lop" thành "classes" và các cột tương ứng
-                    string query = "SELECT class_code AS MaLop, class_name AS TenLop, faculty AS MaKhoa " +
-                                     "FROM classes " +
-                                     "WHERE class_code LIKE @text OR class_name LIKE @text";
+                    string query = "DELETE FROM lop WHERE MaLop=@id";
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", classId);
+                        int rows = cmd.ExecuteNonQuery();
+                        MessageBox.Show(rows > 0 ? "✅ Xóa thành công!" : "❌ Không tìm thấy lớp cần xóa.");
+                    }
+                }
+                ClearForm();
+                LoadClasses();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Lỗi xóa lớp: " + ex.Message);
+            }
+        }
+
+        // ====== Nút Tìm kiếm ======
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            string queryText = SearchBox.Text.Trim();
+            if (string.IsNullOrEmpty(queryText))
+            {
+                LoadClasses();
+                return;
+            }
+
+            try
+            {
+                using (var conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT MaLop, TenLop, MaKhoa FROM lop " +
+                                   "WHERE MaLop LIKE @text OR TenLop LIKE @text";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@text", "%" + queryText + "%");
@@ -223,11 +236,11 @@ namespace StudentManagement.UI.Pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("❌ Lỗi tìm kiếm: " + ex.Message);
             }
         }
 
-        // Chọn dòng trong DataGrid để tự động điền TextBox
+        // ===== Khi chọn dòng trong DataGrid =====
         private void ClassDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ClassDataGrid.SelectedItem == null) return;
@@ -236,18 +249,26 @@ namespace StudentManagement.UI.Pages
 
             txtClassId.Text = row["MaLop"].ToString();
             txtNameClass.Text = row["TenLop"].ToString();
+            string maKhoa = row["MaKhoa"].ToString();
 
-            // SỬA: Sửa logic chọn Khoa trong ComboBox
-            string maKhoaFromGrid = row["MaKhoa"].ToString();
             foreach (ComboBoxItem item in txtDepartID.Items)
             {
-                // So sánh Mã Khoa với Mã Khoa
-                if (item.Content.ToString() == maKhoaFromGrid)
+                if (item.Content.ToString() == maKhoa)
                 {
                     txtDepartID.SelectedItem = item;
                     break;
                 }
             }
+        }
+
+        // ===== Hàm tiện ích =====
+        private void ClearForm()
+        {
+            txtClassId.Clear();
+            txtNameClass.Clear();
+            SearchBox.Clear();
+            if (txtDepartID.Items.Count > 0)
+                txtDepartID.SelectedIndex = 0;
         }
     }
 }

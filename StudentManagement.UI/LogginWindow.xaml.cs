@@ -1,23 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using StudentManagement.Core;
 
 namespace StudentManagement.UI
 {
-    /// <summary>
-    /// Interaction logic for LoginWindow.xaml
-    /// </summary>
     public partial class LoginWindow : Window
     {
         private readonly AuthenticationService _authService;
@@ -30,29 +16,44 @@ namespace StudentManagement.UI
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            string username = txtUsername.Text;
+            string username = txtUsername.Text.Trim();
             string password = txtPassword.Password;
 
-            try // Bắt đầu khối try để bắt lỗi
+            try
             {
                 string? userRole = _authService.AuthenticateUser(username, password);
 
-                if (userRole != null)
+                // Không có tài khoản hợp lệ
+                if (string.IsNullOrEmpty(userRole))
                 {
-                    MainWindow mainWindow = new MainWindow(userRole);
-                    mainWindow.Show();
-                    this.Close();
+                    MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!",
+                        "Lỗi đăng nhập", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
                 }
-                else
+
+                // ✅ CHỈ CHO PHÉP ĐĂNG NHẬP KHI ROLE = ADMIN
+                if (!userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
                 {
-                    MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng!", "Lỗi Đăng Nhập", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Tài khoản này không có quyền truy cập hệ thống!",
+                        "Từ chối truy cập", MessageBoxButton.OK, MessageBoxImage.Stop);
+                    return;
                 }
+
+                // Nếu là Admin → mở giao diện chính
+                MainWindow mainWindow = new MainWindow(userRole);
+                mainWindow.Show();
+                this.Close();
             }
-            catch (Exception ex) // Bắt lỗi kết nối DB được "ném" ra từ tầng Core
+            catch (Exception ex)
             {
-                // Hiển thị lỗi kết nối chi tiết cho người dùng
-                MessageBox.Show("Không thể kết nối đến cơ sở dữ liệu. Vui lòng kiểm tra lại.\n\nChi tiết: " + ex.Message, "Lỗi Kết Nối", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Không thể kết nối đến cơ sở dữ liệu.\n\nChi tiết: " + ex.Message,
+                                "Lỗi kết nối", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
