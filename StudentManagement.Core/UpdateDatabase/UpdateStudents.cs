@@ -5,13 +5,11 @@ using System.Data; // Cần thiết cho MySqlDbType
 
 namespace StudentManagement
 {
-    public class UpdateStudents
+    public class UpdateStudents : DatabaseServiceBase
     {
-        private string connStr = "Server=localhost;Port=3306;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
-
         public void UpdateStudent(Student student)
         {
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
 
@@ -20,7 +18,7 @@ namespace StudentManagement
                                  HoTen = @HoTen, 
                                  NgaySinh = @NgaySinh, 
                                  GioiTinh = @GioiTinh,
-                                 DiaChi = @DiaChi,        -- ✅ THÊM DÒNG NÀY ĐỂ CẬP NHẬT ĐỊA CHỈ
+                                 DiaChi = @DiaChi, 
                                  Email = @Email, 
                                  SoDienThoai = @SoDienThoai,
                                  MaLop = @MaLop,

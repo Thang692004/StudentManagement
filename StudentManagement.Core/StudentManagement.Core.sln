@@ -5,6 +5,10 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManagement.Core", "StudentManagement.Core.csproj", "{FC0EDD3C-8E7A-4846-A08D-66C353FAAC45}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManagement.UI", "..\StudentManagement.UI\StudentManagement.UI.csproj", "{0738ED7D-37F9-40C3-8119-2EBE0EA62D76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManagement.Data", "..\StudentManagement.Data\StudentManagement.Data.csproj", "{26AFF08C-3FCB-4CF8-ACED-DBFA70A18427}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{FC0EDD3C-8E7A-4846-A08D-66C353FAAC45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC0EDD3C-8E7A-4846-A08D-66C353FAAC45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC0EDD3C-8E7A-4846-A08D-66C353FAAC45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0738ED7D-37F9-40C3-8119-2EBE0EA62D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0738ED7D-37F9-40C3-8119-2EBE0EA62D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0738ED7D-37F9-40C3-8119-2EBE0EA62D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0738ED7D-37F9-40C3-8119-2EBE0EA62D76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26AFF08C-3FCB-4CF8-ACED-DBFA70A18427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26AFF08C-3FCB-4CF8-ACED-DBFA70A18427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26AFF08C-3FCB-4CF8-ACED-DBFA70A18427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26AFF08C-3FCB-4CF8-ACED-DBFA70A18427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

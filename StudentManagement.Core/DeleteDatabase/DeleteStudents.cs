@@ -1,17 +1,17 @@
-﻿// File: DeleteStudents.cs (Bạn cần tự tạo file này)
-using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 using StudentManagement.Core;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace StudentManagement
 {
-    public class DeleteStudents
+    public class DeleteStudents : DatabaseServiceBase
     {
-        private string connStr = "Server=localhost;Port=3306;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
+        public DeleteStudents(string? connectionString = null) : base(connectionString) { }
 
         public void DeleteStudentByMaSV(string maSV)
         {
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
                 string query = "DELETE FROM sinh_vien WHERE MaSV = @MaSV";

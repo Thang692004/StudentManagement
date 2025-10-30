@@ -6,15 +6,12 @@ using ZstdSharp.Unsafe;
 
 namespace StudentManagement
 {
-	public class ReadClasses
-	{
-
-        private string connStr = "Server=localhost;Port=3306;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
-
+	public class ReadClasses : DatabaseServiceBase
+    {
 		public List<Class> GetClasses()
 		{
 			var classes = new List<Class>();
-			using (var conn = new MySqlConnection(connStr) )
+			using (var conn = new MySqlConnection(ConnectionString) )
 			{
 				conn.Open();
 				string query = @"SELECT c.MaLop,c.TenLop,c.MaKhoa, k.TenKhoa FROM lop c
