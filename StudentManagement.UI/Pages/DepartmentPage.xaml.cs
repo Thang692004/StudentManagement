@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using MySqlConnector;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+
 
 namespace StudentManagement.UI.Pages
 {
@@ -12,11 +16,19 @@ namespace StudentManagement.UI.Pages
     /// </summary>
     public partial class DepartmentPage : UserControl
     {
-        private string connectionString = "Server=127.0.0.1;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
+        private readonly string connectionString;
 
         public DepartmentPage()
         {
             InitializeComponent();
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            IConfiguration config = builder.Build();
+            connectionString = config.GetConnectionString("Default") ?? string.Empty;
+
             LoadDepartments();
         }
 
@@ -144,28 +156,50 @@ namespace StudentManagement.UI.Pages
             DataRowView row = (DataRowView)DepartmentDataGrid.SelectedItem;
             string maKhoa = row["MaKhoa"].ToString();
 
-            if (MessageBox.Show($"Bạn có chắc muốn xóa Khoa {maKhoa}?", "Xác nhận", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            try
             {
-                try
+                using (var conn = new MySqlConnection(connectionString))
                 {
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    conn.Open();
+
+                    // Kiểm tra xem Khoa còn Lớp không
+                    string checkQuery = "SELECT COUNT(*) FROM lop WHERE MaKhoa=@MaKhoa";
+                    using (var checkCmd = new MySqlCommand(checkQuery, conn))
                     {
-                        conn.Open();
-                        string query = "DELETE FROM khoa WHERE MaKhoa=@MaKhoa";
-                        MySqlCommand cmd = new MySqlCommand(query, conn);
-                        cmd.Parameters.AddWithValue("@MaKhoa", maKhoa);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Xóa Khoa thành công!");
-                        ClearForm();
-                        LoadDepartments();
+                        checkCmd.Parameters.AddWithValue("@MaKhoa", maKhoa);
+                        long classCount = (long)checkCmd.ExecuteScalar();
+
+                        if (classCount > 0)
+                        {
+                            MessageBox.Show($"Khoa này còn {classCount} lớp. Không thể xóa Khoa còn lớp.",
+                                            "Lỗi xóa Khoa", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Lỗi khi xóa Khoa: " + ex.Message);
+
+                    // Xác nhận xóa
+                    if (MessageBox.Show($"Bạn có chắc muốn xóa Khoa {maKhoa}?", "Xác nhận", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                        return;
+
+                    // Thực hiện xóa Khoa
+                    string deleteQuery = "DELETE FROM khoa WHERE MaKhoa=@MaKhoa";
+                    using (var deleteCmd = new MySqlCommand(deleteQuery, conn))
+                    {
+                        deleteCmd.Parameters.AddWithValue("@MaKhoa", maKhoa);
+                        int rows = deleteCmd.ExecuteNonQuery();
+                        MessageBox.Show(rows > 0 ? "Xóa Khoa thành công!" : "Không tìm thấy Khoa.");
+                    }
+
+                    ClearForm();
+                    LoadDepartments();
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa Khoa: " + ex.Message);
+            }
         }
+
 
         // Khi chọn một dòng trên DataGrid
         private void DepartmentDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -1,0 +1,20 @@
+﻿<Window x:Class="StudentManagement.UI.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Đăng nhập" Height="400" Width="500"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
+    <Grid Background="#ECF0F1">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+            <TextBlock Text="ĐĂNG NHẬP" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20" Foreground="#2C3E50"/>
+
+            <TextBlock Text="Tên đăng nhập:" Margin="0,10,0,0"/>
+            <TextBox x:Name="txtUsername" Style="{StaticResource TextBoxStyle}" Width="300" Height="40"/>
+
+            <TextBlock Text="Mật khẩu:" Margin="0,10,0,0"/>
+            <PasswordBox x:Name="txtPassword" Margin="0,5" Padding="4" FontSize="14" BorderBrush="#BDC3C7" BorderThickness="1" Height="40" VerticalContentAlignment="Center"/>
+
+            <Button x:Name="btnLogin" Content="Đăng nhập" Click="Login_Click" Margin="0,20,0,0" Height="40" Background="#2980B9" Style="{StaticResource ActionButtonStyle}"/>
+        </StackPanel>
+    </Grid>
+</Window>

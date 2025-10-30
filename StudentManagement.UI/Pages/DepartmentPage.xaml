@@ -159,7 +159,7 @@
                                       GridLinesVisibility="None"
                                       RowHeight="35"
                                       Height="300"
-                                      FontSize="14" SelectionChanged="StudentsDataGrid_SelectionChanged">
+                                      FontSize="14" SelectionChanged="DepartmentDataGrid_SelectionChanged">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Mã Khoa" Binding="{Binding MaKhoa}" Width="*"/>
                                             <DataGridTextColumn Header="Tên Khoa" Binding="{Binding TenKhoa}" Width="2*"/>

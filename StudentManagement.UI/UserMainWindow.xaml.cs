@@ -13,13 +13,14 @@ namespace StudentManagement.UI;
 
 using System.Windows.Controls.Primitives;
 using StudentManagement.UI.Pages;
+using StudentManagement.UI.Pages.UserPages;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class UserMainWindow : Window
 {
-    public MainWindow()
+    public UserMainWindow()
     {
         InitializeComponent();
     }
@@ -28,9 +29,9 @@ public partial class MainWindow : Window
         MainContent.Content = new DashboardPage();
     }
 
-    private void BtnStudents_Click(object sender, RoutedEventArgs e)
+    private void BtnUserStudents_Click(object sender, RoutedEventArgs e)
     {
-        MainContent.Content = new StudentsPage();
+        MainContent.Content = new UserStudentsPage();
         if (MainContent.Content is ISearchableContent searchableContent)
         {
             // Gọi PerformSearch() với nội dung hiện tại của SearchBox.
@@ -38,24 +39,20 @@ public partial class MainWindow : Window
         }
     }
 
-    private void BtnClasses_Click(object sender, RoutedEventArgs e)
+    private void BtnUserClasses_Click(object sender, RoutedEventArgs e)
     {
-        MainContent.Content = new ClassPage();
+        MainContent.Content = new UserClassesPage();
     }
-    private void BtnDepartments_Click(object sender, RoutedEventArgs e)
+    private void BtnUserDepartments_Click(object sender, RoutedEventArgs e)
     {
-        MainContent.Content = new DepartmentPage();
+        MainContent.Content = new UserDepartmentsPage();
     }
 
-    private void BtnAccounts_Click(object sender, RoutedEventArgs e)
-    {
-        MainContent.Content = new AccountsPage();
-    }
     private void Profile_Click(object sender, RoutedEventArgs e)
     {
         MainContent.Content = new ProfilePage();
     }
-    
+
     // Khi ToggleButton được check
     private void ProfileToggle_Checked(object sender, RoutedEventArgs e)
     {
