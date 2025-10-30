@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              Background="white"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -18,25 +19,27 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Tiêu đề -->
         <Border Background="#2C3E50" Padding="15" CornerRadius="8" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,15">
             <TextBlock Text="Quản lý Tài khoản"
-               Foreground="White"
-               FontSize="22"
-               FontWeight="Bold"
-               VerticalAlignment="Center"/>
+                       Foreground="White"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
         </Border>
 
+        <!-- Nội dung chính -->
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-              VerticalScrollBarVisibility="Hidden"
-              HorizontalScrollBarVisibility="Disabled">
+                      VerticalScrollBarVisibility="Hidden"
+                      HorizontalScrollBarVisibility="Disabled">
 
             <Grid>
                 <!-- Gạch ngang trên -->
                 <Border Height="2"
-                Background="Black"
-                Opacity="0.4"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"/>
+                        Background="Black"
+                        Opacity="0.4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"/>
 
                 <!-- Border chứa bảng -->
                 <Border Margin="0,10,0,0">
@@ -50,26 +53,23 @@
                             <RowDefinition Height="120" />
                         </Grid.RowDefinitions>
 
-                        <!-- CỘT 1: FORM -->
+                        <!-- ========== CỘT 1: FORM ========== -->
                         <Grid Margin="10" Grid.Column="0">
                             <StackPanel Margin="0,5">
                                 <TextBlock Text="Thông Tin Tài Khoản" 
-                                   FontWeight="Bold" FontSize="16" 
-                                   Margin="0,0,0,5"/>
+                                           FontWeight="Bold" FontSize="16" 
+                                           Margin="0,0,0,5"/>
                                 <Border Height="2" Background="Black" Opacity="0.4"
-                                HorizontalAlignment="Stretch"
-                                Margin="0,0,0,10"/>
+                                        HorizontalAlignment="Stretch"
+                                        Margin="0,0,0,10"/>
 
+                                <!-- Form nhập liệu -->
                                 <Border BorderBrush="#CCCCCC" BorderThickness="1"
-                                 CornerRadius="8" Padding="10"
-                                 Margin="0,0,0,10">
-
+                                        CornerRadius="8" Padding="10"
+                                        Margin="0,0,0,10">
                                     <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" PreviewMouseWheel="svForm_PreviewMouseWheel">
                                         <Grid>
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
@@ -80,12 +80,12 @@
                                                 <TextBox x:Name="txtStudentId" Style="{DynamicResource TextBoxStyle}" Width="400"/>
                                             </StackPanel>
 
-                                            <StackPanel Orientation="Horizontal" Margin="0,5" Grid.Row="2">
+                                            <StackPanel Orientation="Horizontal" Margin="0,5" Grid.Row="1">
                                                 <TextBlock Text="Username:" Width="120" VerticalAlignment="Center"/>
                                                 <TextBox x:Name="txtUsername" Style="{DynamicResource TextBoxStyle}" Width="400"/>
                                             </StackPanel>
 
-                                            <StackPanel Orientation="Horizontal" Margin="0,5" Grid.Row="3">
+                                            <StackPanel Orientation="Horizontal" Margin="0,5" Grid.Row="2">
                                                 <TextBlock Text="Password:" Width="120" VerticalAlignment="Center"/>
                                                 <TextBox x:Name="txtPassword" Style="{DynamicResource TextBoxStyle}" Width="400"/>
                                             </StackPanel>
@@ -93,22 +93,23 @@
                                     </ScrollViewer>
                                 </Border>
 
+                                <!-- Nút thao tác -->
                                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                                    <Button Width="120" Margin="0,0,10,0" Background="#27AE60" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Add_Click" Width="120" Margin="0,0,10,0" Background="#27AE60" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="\Assets\Icons\add-symbol.png" Height="18"/>
                                             <TextBlock Text="Thêm" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
 
-                                    <Button Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Update_Click" Width="120" Margin="0,0,10,0" Background="#2980B9" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Icons/modify-icon.png" Height="18" Margin="0,0,5,0"/>
                                             <TextBlock Text="Sửa" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Button>
 
-                                    <Button Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
+                                    <Button Click="Delete_Click" Width="120" Background="#C0392B" Style="{StaticResource ActionButtonStyle}">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Assets/Icons/delete.png" Height="18" Margin="0,0,5,0"/>
                                             <TextBlock Text="Xóa" VerticalAlignment="Center"/>
@@ -120,51 +121,68 @@
 
                         <!-- Gạch dọc ngăn -->
                         <Border Grid.Column="0" Width="1" Background="Black"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Stretch"
-                        Margin="0,20,0,20"/>
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Stretch"
+                                Margin="0,20,0,20"/>
 
-                        <!-- CỘT 2: DANH SÁCH -->
+                        <!-- ========== CỘT 2: DANH SÁCH ========== -->
                         <StackPanel Grid.Column="1" Margin="10">
                             <TextBlock Text="Danh Sách Tài Khoản"
-                               FontWeight="Bold" FontSize="16"
-                               Margin="0,0,0,5"/>
+                                       FontWeight="Bold" FontSize="16"
+                                       Margin="0,0,0,5"/>
 
+                            <!-- Ô tìm kiếm -->
                             <Grid Margin="0,0,0,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="120"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox x:Name="SearchBox"
-                                Grid.Column="0"
-                                Margin="0,0,10,0"
-                                FontSize="14" Height="30"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Stretch"
-                                Style="{DynamicResource TextBoxStyle}"/>
+                                         Grid.Column="0"
+                                         Margin="0,0,10,0"
+                                         FontSize="14" Height="30"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Stretch"
+                                         Style="{DynamicResource TextBoxStyle}"/>
                                 <Button Content="Search"
-                                Grid.Column="1"
-                                Width="120" Height="30"
-                                Click="Search_Click"
-                                Style="{DynamicResource SearchButtonStyle}"
-                                HorizontalAlignment="Right"
-                                Background="#135D81"/>
+                                        Grid.Column="1"
+                                        Width="120" Height="30"
+                                        Click="Search_Click"
+                                        Style="{DynamicResource SearchButtonStyle}"
+                                        HorizontalAlignment="Right"
+                                        Background="#135D81"/>
                             </Grid>
 
+                            <!-- Bảng dữ liệu -->
                             <StackPanel Margin="10" Background="#F9F9F9">
-
-                                <!-- Bảng dữ liệu -->
                                 <Border CornerRadius="8" Background="White" Padding="10"
-                                BorderBrush="#BDC3C7" BorderThickness="1">
+                                        BorderBrush="#BDC3C7" BorderThickness="1">
                                     <DataGrid x:Name="StudentsDataGrid"
-                                      AutoGenerateColumns="False"
-                                      HeadersVisibility="Column"
-                                      CanUserAddRows="False"
-                                      AlternatingRowBackground="#F8F9F9"
-                                      GridLinesVisibility="None"
-                                      RowHeight="35"
-                                      Height="300"
-                                      FontSize="14">
+                                              AutoGenerateColumns="False"
+                                              SelectionChanged="StudentsDataGrid_SelectionChanged"
+                                              HeadersVisibility="Column"
+                                              CanUserAddRows="False"
+                                              AlternatingRowBackground="#F8F9F9"
+                                              GridLinesVisibility="None"
+                                              RowHeight="35"
+                                              Height="300"
+                                              FontSize="14"
+                                              SelectionMode="Single"
+                                              SelectionUnit="FullRow">
+                                        <!-- Style cho dòng được chọn -->
+                                        <DataGrid.Resources>
+                                            <Style TargetType="DataGridRow">
+                                                <Setter Property="Background" Value="White"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="#D6EAF8"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.Resources>
+
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Mã SV" Binding="{Binding MaSV}" Width="*"/>
                                             <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="2*"/>
@@ -173,12 +191,10 @@
                                     </DataGrid>
                                 </Border>
                             </StackPanel>
-
                         </StackPanel>
                     </Grid>
                 </Border>
             </Grid>
         </ScrollViewer>
-
     </Grid>
 </UserControl>
