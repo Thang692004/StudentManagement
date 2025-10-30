@@ -71,7 +71,15 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT MaLop, TenLop, MaKhoa FROM lop";
+                    string query = @"
+                        SELECT 
+                            l.MaLop, 
+                            l.TenLop, 
+                            l.MaKhoa, 
+                            k.TenKhoa
+                        FROM lop l
+                        JOIN khoa k ON l.MaKhoa = k.MaKhoa
+                    ";
                     using (var adapter = new MySqlDataAdapter(query, conn))
                     {
                         DataTable dt = new DataTable();
@@ -220,8 +228,18 @@ namespace StudentManagement.UI.Pages
                 using (var conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT MaLop, TenLop, MaKhoa FROM lop " +
-                                   "WHERE MaLop LIKE @text OR TenLop LIKE @text";
+                    string query = @"
+                        SELECT 
+                            l.MaLop, 
+                            l.TenLop, 
+                            l.MaKhoa, 
+                            k.TenKhoa
+                        FROM lop l
+                        JOIN khoa k ON l.MaKhoa = k.MaKhoa
+                        WHERE l.MaLop LIKE @text 
+                           OR l.TenLop LIKE @text 
+                           OR k.TenKhoa LIKE @text
+                    ";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@text", "%" + queryText + "%");
