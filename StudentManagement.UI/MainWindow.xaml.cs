@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -118,5 +118,15 @@ namespace StudentManagement.UI
         {
 
         }
+        private void Logout_Click(object sender, RoutedEventArgs e)
+    {
+        // Mở lại cửa sổ Login
+        LoginWindow loginWindow = new LoginWindow();
+        loginWindow.Show();
+
+        // Đóng MainWindow hiện tại
+        ProfileToggle.IsChecked = false;
+        this.Close();
+    }
     }
 }

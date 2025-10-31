@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 
 namespace StudentManagement.UI.Pages
 {
     public partial class AccountsPage : UserControl
     {
-        private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=thang692004;";
+        private readonly string connectionString;
 
         public AccountsPage()
         {
             InitializeComponent();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            IConfiguration config = builder.Build();
+            connectionString = config.GetConnectionString("Default")
+                ?? throw new Exception("Không tìm thấy chuỗi kết nối 'Default' trong appsettings.json.");
             LoadAccounts();
         }
 
@@ -86,7 +95,7 @@ namespace StudentManagement.UI.Pages
 
                     if (exists == 0)
                     {
-                        MessageBox.Show($"Mã sinh viên '{maSV}' không tồn tại trong bảng sinh_vien!",
+                        MessageBox.Show($"Mã sinh viên '{  maSV}' không tồn tại trong bảng sinh_vien!",
                                         "Lỗi khóa ngoại", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
