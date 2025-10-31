@@ -48,16 +48,24 @@
 
                 <!-- Name + Email -->
                 <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
-                    <TextBlock Text="Your name" 
-                               FontSize="22" 
-                               FontWeight="SemiBold" 
-                               Foreground="White"/>
-                    <TextBlock Text="yourname@gmail.com"
-                               FontSize="14" 
-                               Foreground="#EAEAEA"/>
-                    <TextBlock x:Name="tbMSV" Text="MSV: -" FontSize="12" Foreground="#EAEAEA"/>
-                    <TextBlock x:Name="tbStatus" Text="Trạng thái: -" FontSize="12" Foreground="#EAEAEA"/>
+                    <TextBlock x:Name="tbUsername"
+               FontSize="22"
+               FontWeight="SemiBold"
+               Foreground="White"/>
+
+                    <TextBlock x:Name="tbEmail"
+               FontSize="14"
+               Foreground="#EAEAEA"/>
+
+                    <TextBlock x:Name="tbMSV"
+               FontSize="12"
+               Foreground="#EAEAEA"/>
+
+                    <TextBlock x:Name="tbStatus"
+               FontSize="12"
+               Foreground="#EAEAEA"/>
                 </StackPanel>
+
 
                 <!-- Edit Button -->
                 <Button x:Name="BtnEdit"
@@ -103,29 +111,29 @@
                         <StackPanel>
                             <TextBlock Text="Thông tin sinh viên" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
 
-                            <UniformGrid Columns="2" Rows="6" Margin="0,8,0,0">
+                            <UniformGrid Columns="2" Rows="7" Margin="0,8,0,0">
                                 <TextBlock Text="MSV" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="txtMSV" Text="-" VerticalAlignment="Center" FontWeight="SemiBold"/>
 
                                 <TextBlock Text="Họ và tên" VerticalAlignment="Center"/>
-                                <TextBox x:Name="txtName" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" />
+                                <TextBox x:Name="txtName" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="200"/>
 
                                 <TextBlock Text="Ngày sinh" VerticalAlignment="Center"/>
-                                <TextBox x:Name="txtDOB" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" />
+                                <TextBox x:Name="txtDOB" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="200"/>
 
                                 <TextBlock Text="Giới tính" VerticalAlignment="Center"/>
-                                <TextBox x:Name="txtGender" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" />
+                                <TextBox x:Name="txtGender" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="200"/>
 
                                 <TextBlock Text="Lớp" VerticalAlignment="Center"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="txtClass" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="160" />
-                                    <ComboBox x:Name="cbClass" Width="160" Visibility="Collapsed" Margin="6,0,0,0" DisplayMemberPath="TenLop" SelectedValuePath="MaLop"/>
+                                    <TextBox x:Name="txtClass" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="200" />
+                                    <ComboBox x:Name="cbClass" Width="200" Visibility="Collapsed" Margin="6,0,0,0" DisplayMemberPath="TenLop" SelectedValuePath="MaLop"/>
                                 </StackPanel>
 
                                 <TextBlock Text="Khoa" VerticalAlignment="Center"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="txtFaculty" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="160" />
-                                    <ComboBox x:Name="cbFaculty" Width="160" Visibility="Collapsed" Margin="6,0,0,0" DisplayMemberPath="TenKhoa" SelectedValuePath="MaKhoa" SelectionChanged="CbFaculty_SelectionChanged"/>
+                                    <TextBox x:Name="txtFaculty" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="200" />
+                                    <ComboBox x:Name="cbFaculty" Width="200" Visibility="Collapsed" Margin="6,0,0,0" DisplayMemberPath="TenKhoa" SelectedValuePath="MaKhoa" SelectionChanged="CbFaculty_SelectionChanged"/>
                                 </StackPanel>
 
                                 <TextBlock Text="Trạng thái học tập" VerticalAlignment="Center"/>
@@ -149,10 +157,10 @@
 
                             <UniformGrid Columns="2" Rows="3" Margin="0,8,0,0">
                                 <TextBlock Text="Tài khoản (username)" VerticalAlignment="Center"/>
-                                <TextBox x:Name="txtUsername" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" />
+                                <TextBox x:Name="txtUsername" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="200"/>
 
                                 <TextBlock Text="Mật khẩu" VerticalAlignment="Center"/>
-                                <PasswordBox x:Name="pwdBox" Width="200" IsEnabled="False"/>
+                                    <PasswordBox x:Name="pwdBox" Width="200" IsEnabled="False" HorizontalAlignment="Left"/>
 
                                 <TextBlock Text="Ghi chú" VerticalAlignment="Center"/>
                                 <TextBlock Text="Mật khẩu lấy từ bảng tài khoản (tai_khoan). Không thể thay đổi từ đây." Foreground="#666" FontSize="12" TextWrapping="Wrap"/>

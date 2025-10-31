@@ -223,6 +223,9 @@ namespace StudentManagement.UI.Pages
                 if (student != null)
                 {
                     tbMSV.Text = $"MSV: {student.MaSV}";
+                    tbUsername.Text = $"{student.HoTen}";
+                    tbEmail.Text = $"Email: {student.Email}";
+                    tbStatus.Text = $"Trạng thái: {student.TrangThai}";
                     txtMSV.Text = student.MaSV;
                     txtStatus.Text = student.TrangThai ?? "-";
                     txtName.Text = student.HoTen ?? string.Empty;

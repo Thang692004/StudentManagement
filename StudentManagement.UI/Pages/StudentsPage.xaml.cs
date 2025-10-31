@@ -208,6 +208,11 @@ namespace StudentManagement.UI.Pages
 
             }
         }
-    
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            string searchText = SearchBox.Text;
+            PerformSearch(searchText);
+        }
+
     }
 }

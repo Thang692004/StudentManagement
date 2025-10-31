@@ -80,9 +80,6 @@ namespace StudentManagement.UI.Pages.UserPages
 
                     return (student.MaSV ?? "").ToLower().Contains(query) ||
                            (student.HoTen ?? "").ToLower().Contains(query) ||
-                           (student.DiaChi ?? "").ToLower().Contains(query) ||
-                           (student.Email ?? "").ToLower().Contains(query) ||
-                           (student.SoDienThoai ?? "").ToLower().Contains(query) ||
                            ((student.TenLop ?? "").ToLower().Contains(query)) ||
                            ((student.TenKhoa ?? "").ToLower().Contains(query));
                 };
@@ -101,5 +98,11 @@ namespace StudentManagement.UI.Pages.UserPages
                 NoResultsText.Visibility = Visibility.Collapsed;
             }
         }
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            string searchText = SearchBox.Text;
+            PerformSearch(searchText);
+        }
+
     }
 }
