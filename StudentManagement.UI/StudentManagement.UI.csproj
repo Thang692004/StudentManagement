@@ -1,16 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Icons\add-symbol.png" />
+    <None Remove="Assets\Icons\delete.png" />
+    <None Remove="Assets\Icons\dotted.jpg" />
+    <None Remove="Assets\Icons\list.png" />
+    <None Remove="Assets\Icons\logo.png" />
+    <None Remove="Assets\Icons\modify-icon.png" />
+    <None Remove="Assets\Icons\user.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.10" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\StudentManagement.Core\StudentManagement.Core.csproj" />
     <ProjectReference Include="..\StudentManagement.Data\StudentManagement.Data.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icons\add-symbol.png" />
+    <Resource Include="Assets\Icons\delete.png" />
+    <Resource Include="Assets\Icons\dotted.jpg" />
+    <Resource Include="Assets\Icons\list.png" />
+    <Resource Include="Assets\Icons\logo.png" />
+    <Resource Include="Assets\Icons\modify-icon.png" />
+    <Resource Include="Assets\Icons\user.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>
