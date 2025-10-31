@@ -34,5 +34,37 @@ namespace StudentManagement.Core.ReadDatabase
                 throw;
             }
         }
+
+        /// <summary>
+        /// Returns a tuple (role, MaSV) for given credentials. MaSV may be null for non-student accounts.
+        /// </summary>
+        public (string? role, string? maSV) GetRoleAndMaSVByCredentials(string username, string password)
+        {
+            try
+            {
+                using (var conn = new MySqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT VaiTro, MaSV FROM tai_khoan WHERE TenDangNhap = @username AND MatKhau = @password";
+                    using (var cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@username", username);
+                        cmd.Parameters.AddWithValue("@password", password);
+                        using var reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            var role = reader["VaiTro"]?.ToString();
+                            var ma = reader["MaSV"]?.ToString();
+                            return (role, ma);
+                        }
+                        return (null, null);
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -89,6 +89,14 @@
                                                 <TextBlock Text="Password:" Width="120" VerticalAlignment="Center"/>
                                                 <TextBox x:Name="txtPassword" Style="{DynamicResource TextBoxStyle}" Width="400"/>
                                             </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" Margin="0,5" Grid.Row="3">
+                                                <TextBlock Text="Vai Trò:" Width="120" VerticalAlignment="Center"/>
+                                                <ComboBox x:Name="cbRole" Style="{DynamicResource ComboBoxStyle}" Width="200">
+                                                    <ComboBoxItem Content="Admin" />
+                                                    <ComboBoxItem Content="Student" />
+                                                </ComboBox>
+                                            </StackPanel>
                                         </Grid>
                                     </ScrollViewer>
                                 </Border>
@@ -187,6 +195,7 @@
                                             <DataGridTextColumn Header="Mã SV" Binding="{Binding MaSV}" Width="*"/>
                                             <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="2*"/>
                                             <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="2*"/>
+                                            <DataGridTextColumn Header="VaiTrò" Binding="{Binding VaiTro}" Width="*"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Border>

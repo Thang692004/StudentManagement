@@ -20,9 +20,41 @@ using StudentManagement.UI.Pages.UserPages;
 /// </summary>
 public partial class UserMainWindow : Window
 {
+    private string? _currentUsername;
+    private string? _currentMaSV;
+    private string? _currentMaKhoa;
+
     public UserMainWindow()
     {
         InitializeComponent();
+    }
+
+    public UserMainWindow(string username, string? maSV) : this()
+    {
+        _currentUsername = username;
+        _currentMaSV = maSV;
+        // Delay heavy lookup until loaded
+        this.Loaded += UserMainWindow_Loaded;
+    }
+
+    private void UserMainWindow_Loaded(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(_currentMaSV))
+            {
+                var reader = new StudentManagement.ReadStudents();
+                var student = reader.GetStudentByMaSV(_currentMaSV);
+                _currentMaKhoa = student?.MaKhoa;
+            }
+        }
+        catch
+        {
+            // ignore; pages will handle missing data
+        }
+
+        // Default to user students page for student users
+        MainContent.Content = new UserStudentsPage(_currentMaKhoa);
     }
     private void BtnDashboard_Click(object sender, RoutedEventArgs e)
     {
@@ -31,7 +63,7 @@ public partial class UserMainWindow : Window
 
     private void BtnUserStudents_Click(object sender, RoutedEventArgs e)
     {
-        MainContent.Content = new UserStudentsPage();
+        MainContent.Content = new UserStudentsPage(_currentMaKhoa);
         if (MainContent.Content is ISearchableContent searchableContent)
         {
             // Gọi PerformSearch() với nội dung hiện tại của SearchBox.
@@ -41,16 +73,16 @@ public partial class UserMainWindow : Window
 
     private void BtnUserClasses_Click(object sender, RoutedEventArgs e)
     {
-        MainContent.Content = new UserClassesPage();
+        MainContent.Content = new UserClassesPage(_currentMaKhoa);
     }
     private void BtnUserDepartments_Click(object sender, RoutedEventArgs e)
     {
-        MainContent.Content = new UserDepartmentsPage();
+        MainContent.Content = new UserDepartmentsPage(_currentMaKhoa);
     }
 
     private void Profile_Click(object sender, RoutedEventArgs e)
     {
-        MainContent.Content = new ProfilePage();
+        MainContent.Content = new ProfilePage(_currentMaSV);
     }
 
     // Khi ToggleButton được check

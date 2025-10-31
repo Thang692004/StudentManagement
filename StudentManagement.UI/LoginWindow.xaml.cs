@@ -36,20 +36,22 @@ namespace StudentManagement.UI
 
             try // Bắt đầu khối try để bắt lỗi
             {
-                string? userRole = _authService.AuthenticateUser(username, password);
+                var authResult = _authService.AuthenticateUser(username, password);
 
-                if (userRole != null)
+                if (authResult != null)
                 {
-                    if (userRole == "Admin")
+                    if (authResult.Role == "Admin")
                     {
-                        MainWindow mainWindow = new MainWindow(userRole);
+                        MainWindow mainWindow = new MainWindow(authResult.Role);
                         mainWindow.Show();
                     }
-                    else // user thường
+                    else // student user
                     {
-                        UserMainWindow userWindow = new UserMainWindow();
+                        // Pass username and associated MaSV to the user window so pages can filter data
+                        UserMainWindow userWindow = new UserMainWindow(authResult.Username, authResult.MaSV);
                         userWindow.Show();
                     }
+
                     this.Close();
                 }
                 else

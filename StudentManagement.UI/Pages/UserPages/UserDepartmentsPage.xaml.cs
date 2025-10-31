@@ -25,9 +25,12 @@ namespace StudentManagement.UI.Pages.UserPages
     public partial class UserDepartmentsPage : UserControl
     {
         private readonly string connectionString;
-        public UserDepartmentsPage()
+        private readonly string? _maKhoaFilter;
+
+        public UserDepartmentsPage(string? maKhoaFilter = null)
         {
             InitializeComponent();
+            _maKhoaFilter = maKhoaFilter;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -46,15 +49,25 @@ namespace StudentManagement.UI.Pages.UserPages
                 using var conn = new MySqlConnection(connectionString);
                 await conn.OpenAsync();
 
-                const string query = @"
-            SELECT MaKhoa, TenKhoa
-            FROM khoa;
-        ";
-
-                using var adapter = new MySqlDataAdapter(query, conn);
-                var dt = new DataTable();
-                adapter.Fill(dt);
-                DepartmentDataGrid.ItemsSource = dt.DefaultView;
+                string query;
+                if (!string.IsNullOrWhiteSpace(_maKhoaFilter))
+                {
+                    query = @"SELECT MaKhoa, TenKhoa FROM khoa WHERE MaKhoa = @maKhoa;";
+                    using var cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@maKhoa", _maKhoaFilter);
+                    using var adapter = new MySqlDataAdapter(cmd);
+                    var dt = new DataTable();
+                    adapter.Fill(dt);
+                    DepartmentDataGrid.ItemsSource = dt.DefaultView;
+                }
+                else
+                {
+                    query = @"SELECT MaKhoa, TenKhoa FROM khoa;";
+                    using var adapter = new MySqlDataAdapter(query, conn);
+                    var dt = new DataTable();
+                    adapter.Fill(dt);
+                    DepartmentDataGrid.ItemsSource = dt.DefaultView;
+                }
             }
             catch (Exception ex)
             {

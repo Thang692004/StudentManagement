@@ -43,7 +43,8 @@
                             <ImageBrush ImageSource="/Assets/Icons/user.png"/>
                         </Ellipse.Fill>
                     </Ellipse>
-                </Grid>
+                        </Grid>
+
 
                 <!-- Name + Email -->
                 <StackPanel Grid.Column="1" Margin="20,0" VerticalAlignment="Center">
@@ -54,6 +55,8 @@
                     <TextBlock Text="yourname@gmail.com"
                                FontSize="14" 
                                Foreground="#EAEAEA"/>
+                    <TextBlock x:Name="tbMSV" Text="MSV: -" FontSize="12" Foreground="#EAEAEA"/>
+                    <TextBlock x:Name="tbStatus" Text="Trạng thái: -" FontSize="12" Foreground="#EAEAEA"/>
                 </StackPanel>
 
                 <!-- Edit Button -->
@@ -80,118 +83,87 @@
                 Margin="40,-40,40,40"
                 Padding="40"
                 Effect="{StaticResource CardShadow}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                
-                <!-- Thông tin -->
-                <Grid Margin="40">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
+                    
+                    <!-- Thông tin -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <Grid Margin="40">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120"/>
-                        <!-- cột label -->
                         <ColumnDefinition Width="*"/>
-                        <!-- cột textbox -->
-
                         <ColumnDefinition Width="20"/>
-
-                        <ColumnDefinition Width="120"/>
-                        <!-- cột label -->
                         <ColumnDefinition Width="*"/>
-                        <!-- cột textbox -->
                     </Grid.ColumnDefinitions>
 
-                    <!-- Name -->
-                    <TextBlock Grid.Row="0" Grid.Column="0"
-                   Text="Name"
-                   FontSize="14"
-                   FontWeight="SemiBold"
-                   Foreground="#333"
-                   VerticalAlignment="Center"
-                   Margin="0,5"/>
-                    <TextBox x:Name="txtName" Grid.Row="0" Grid.Column="1" Style="{DynamicResource TextBoxStyle}" Width="200" Text="yourname" IsReadOnly="True"/>
+                    <!-- Student info group -->
+                    <Border Grid.Column="0" Background="#FAFAFA" Padding="16" CornerRadius="8" BorderBrush="#EEE" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Thông tin sinh viên" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
 
-                    <!-- Email -->
-                    <TextBlock Grid.Row="1" Grid.Column="0"
-                   Text="Email account"
-                   FontSize="14"
-                   FontWeight="SemiBold"
-                   Foreground="#333"
-                   VerticalAlignment="Center"
-                   Margin="0,5"/>
-                    <TextBox x:Name="txtEmail" Grid.Row="1" Grid.Column="1" Style="{DynamicResource TextBoxStyle}" Width="200" Text="yourmail@gmail.com" IsReadOnly="True"/>
+                            <UniformGrid Columns="2" Rows="6" Margin="0,8,0,0">
+                                <TextBlock Text="MSV" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="txtMSV" Text="-" VerticalAlignment="Center" FontWeight="SemiBold"/>
 
-                    <!-- Mobile number -->
-                    <TextBlock Grid.Row="2" Grid.Column="0"
-                   Text="Password"
-                   FontSize="14"
-                   FontWeight="SemiBold"
-                   Foreground="#333"
-                   VerticalAlignment="Center"
-                   Margin="0,5"/>
-                    <TextBox x:Name="txtPassword" Grid.Row="2" Grid.Column="1" Style="{DynamicResource TextBoxStyle}" Width="200" Text="password" IsReadOnly="True"/>
+                                <TextBlock Text="Họ và tên" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txtName" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" />
 
-                    <!-- Location -->
-                    <TextBlock Grid.Row="3" Grid.Column="0"
-                   Text="Location"
-                   FontSize="14"
-                   FontWeight="SemiBold"
-                   Foreground="#333"
-                   VerticalAlignment="Center"
-                   Margin="0,5"/>
-                    <TextBox x:Name="txtLocation" Grid.Row="4" Grid.Column="1" Style="{DynamicResource TextBoxStyle}" Width="200" Text="address" IsReadOnly="True"/>
+                                <TextBlock Text="Ngày sinh" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txtDOB" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" />
 
-                    <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" Width="1" Background="Black" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Giới tính" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txtGender" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" />
 
-                    <!-- Name -->
-                    <TextBlock Grid.Row="0" Grid.Column="3"
-                    Text="Gender"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    Foreground="#333"
-                    VerticalAlignment="Center"
-                    Margin="0,5"/>
-                    <TextBox x:Name="txtGender" Grid.Row="0" Grid.Column="4" Style="{DynamicResource TextBoxStyle}" Width="200" Text="Nam" IsReadOnly="True"/>
+                                <TextBlock Text="Lớp" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="txtClass" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="160" />
+                                    <ComboBox x:Name="cbClass" Width="160" Visibility="Collapsed" Margin="6,0,0,0" DisplayMemberPath="TenLop" SelectedValuePath="MaLop"/>
+                                </StackPanel>
 
-                    <!-- Email -->
-                    <TextBlock Grid.Row="1" Grid.Column="3"
-                    Text="Date of Birth"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    Foreground="#333"
-                    VerticalAlignment="Center"
-                    Margin="0,5"/>
-                    <TextBox x:Name="txtDOB" Grid.Row="1" Grid.Column="4" Style="{DynamicResource TextBoxStyle}" Width="200" Text="dateofbirth" IsReadOnly="True"/>
+                                <TextBlock Text="Khoa" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="txtFaculty" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" Width="160" />
+                                    <ComboBox x:Name="cbFaculty" Width="160" Visibility="Collapsed" Margin="6,0,0,0" DisplayMemberPath="TenKhoa" SelectedValuePath="MaKhoa" SelectionChanged="CbFaculty_SelectionChanged"/>
+                                </StackPanel>
 
-                    <!-- Mobile number -->
-                    <TextBlock Grid.Row="2" Grid.Column="3"
-                    Text="Mobile number"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    Foreground="#333"
-                    VerticalAlignment="Center"
-                    Margin="0,5"/>
-                    <TextBox x:Name="txtPhone" Grid.Row="2" Grid.Column="4" Style="{DynamicResource TextBoxStyle}" Width="200" Text="phone_number" IsReadOnly="True"/>
+                                <TextBlock Text="Trạng thái học tập" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="txtStatus" Text="-" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                    <ComboBox x:Name="cbStatus" Width="140" Visibility="Collapsed" Margin="6,0,0,0">
+                                        <ComboBoxItem Content="Đang học" Tag="1" />
+                                        <ComboBoxItem Content="Nghỉ học" Tag="0" />
+                                    </ComboBox>
+                                </StackPanel>
+                            </UniformGrid>
 
-                    <!-- Location -->
-                    <TextBlock Grid.Row="3" Grid.Column="3"
-                    Text="Permission Group"
-                    FontSize="14"
-                    FontWeight="SemiBold"
-                    Foreground="#333"
-                    VerticalAlignment="Center"
-                    Margin="0,5"/>
-                    <TextBox x:Name="txtPermission" Grid.Row="4" Grid.Column="4" Style="{DynamicResource TextBoxStyle}" Width="200" Text="admin" IsReadOnly="True"/>
+                            <TextBlock Text="Ghi chú: Các trường MSV, Lớp, Khoa, Trạng thái là thông tin sinh viên. Nếu trống, bạn có thể chọn để hoàn thiện." Foreground="#666" FontSize="12" Margin="0,8,0,0" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
 
-                </Grid>
+                    <!-- Account info group -->
+                    <Border Grid.Column="2" Background="#FAFAFA" Padding="16" CornerRadius="8" BorderBrush="#EEE" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Thông tin tài khoản" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+
+                            <UniformGrid Columns="2" Rows="3" Margin="0,8,0,0">
+                                <TextBlock Text="Tài khoản (username)" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txtUsername" Style="{DynamicResource TextBoxStyle}" IsReadOnly="True" />
+
+                                <TextBlock Text="Mật khẩu" VerticalAlignment="Center"/>
+                                <PasswordBox x:Name="pwdBox" Width="200" IsEnabled="False"/>
+
+                                <TextBlock Text="Ghi chú" VerticalAlignment="Center"/>
+                                <TextBlock Text="Mật khẩu lấy từ bảng tài khoản (tai_khoan). Không thể thay đổi từ đây." Foreground="#666" FontSize="12" TextWrapping="Wrap"/>
+                            </UniformGrid>
+
+                            <TextBlock Text="Ghi chú: Các trường trên thuộc thông tin tài khoản (Account). MSV và Tài khoản không thể thay đổi." Foreground="#666" FontSize="12" Margin="0,8,0,0" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                        </Grid>
+                    </ScrollViewer>
 
                 <!-- Save Button -->
                 <Button x:Name="BtnSave"

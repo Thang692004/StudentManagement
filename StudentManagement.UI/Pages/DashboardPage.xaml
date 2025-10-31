@@ -36,8 +36,8 @@
                 <!-- Card 2 -->
                 <Border Background="#2D7D46" CornerRadius="10" Padding="20" Width="220" Margin="0,0,20,0">
                     <StackPanel>
-                        <TextBlock Text="Số lượng môn học" Foreground="White" FontSize="16"/>
-                        <TextBlock x:Name="txtSubjects" Text="0" FontSize="32" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="Số lượng lớp" Foreground="White" FontSize="16"/>
+                        <TextBlock x:Name="txtClasses" Text="0" FontSize="32" FontWeight="Bold" Foreground="White"/>
                     </StackPanel>
                 </Border>
 
@@ -57,8 +57,13 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                
+                <!-- Chart area -->
+                <Border Grid.Column="0" Grid.ColumnSpan="3" Background="White" CornerRadius="8" Padding="10">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <!-- Use UniformGrid so each column gets equal width -->
+                        <UniformGrid x:Name="ChartPanel" Rows="1" Height="300" VerticalAlignment="Bottom"/>
+                    </ScrollViewer>
+                </Border>
             </Grid>
         </Grid>
     </Grid>

@@ -46,9 +46,9 @@ namespace StudentManagement.UI.Pages
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "SELECT MaSV, TenDangNhap AS Username, MatKhau AS Password FROM tai_khoan";
+                    string sql = "SELECT MaSV, TenDangNhap AS Username, MatKhau AS Password, VaiTro FROM tai_khoan";
                     if (!string.IsNullOrEmpty(keyword))
-                        sql += " WHERE MaSV LIKE @kw OR TenDangNhap LIKE @kw";
+                        sql += " WHERE MaSV LIKE @kw OR TenDangNhap LIKE @kw OR VaiTro LIKE @kw";
 
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     if (!string.IsNullOrEmpty(keyword))
@@ -73,10 +73,11 @@ namespace StudentManagement.UI.Pages
             string maSV = txtStudentId.Text.Trim();
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
+            string role = (cbRole.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? cbRole.Text?.Trim();
 
-            if (string.IsNullOrEmpty(maSV) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(maSV) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(role))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ Mã SV, Username và Mật khẩu!",
+                MessageBox.Show("Vui lòng nhập đầy đủ Mã SV, Username, Mật khẩu và VaiTrò!",
                                 "Thiếu dữ liệu", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -100,12 +101,13 @@ namespace StudentManagement.UI.Pages
                         return;
                     }
 
-                    // Thêm tài khoản
-                    string sql = "INSERT INTO tai_khoan (MaSV, TenDangNhap, MatKhau) VALUES (@MaSV, @TenDangNhap, @MatKhau)";
+                    // Thêm tài khoản (bao gồm VaiTro)
+                    string sql = "INSERT INTO tai_khoan (MaSV, TenDangNhap, MatKhau, VaiTro) VALUES (@MaSV, @TenDangNhap, @MatKhau, @VaiTro)";
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@MaSV", maSV);
                     cmd.Parameters.AddWithValue("@TenDangNhap", username);
                     cmd.Parameters.AddWithValue("@MatKhau", password);
+                    cmd.Parameters.AddWithValue("@VaiTro", role);
                     cmd.ExecuteNonQuery();
 
                     MessageBox.Show("Thêm tài khoản thành công!", "Thành công",
@@ -134,11 +136,18 @@ namespace StudentManagement.UI.Pages
             string maSV = txtStudentId.Text.Trim();
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
+            string role = (cbRole.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? cbRole.Text?.Trim();
 
-            if (string.IsNullOrEmpty(maSV) || string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(maSV) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ Mã SV và Username để sửa!",
+                MessageBox.Show("Vui lòng nhập đầy đủ Mã SV, Username và Mật khẩu để sửa!",
                                 "Thiếu thông tin", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            
+            if (string.IsNullOrEmpty(role))
+            {
+                MessageBox.Show("Vui lòng chọn VaiTrò để sửa!", "Thiếu thông tin", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -147,11 +156,12 @@ namespace StudentManagement.UI.Pages
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string sql = "UPDATE tai_khoan SET MatKhau=@MatKhau WHERE MaSV=@MaSV AND TenDangNhap=@TenDangNhap";
+                    string sql = "UPDATE tai_khoan SET MatKhau=@MatKhau, VaiTro=@VaiTro WHERE MaSV=@MaSV AND TenDangNhap=@TenDangNhap";
                     MySqlCommand cmd = new MySqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@MaSV", maSV);
                     cmd.Parameters.AddWithValue("@TenDangNhap", username);
                     cmd.Parameters.AddWithValue("@MatKhau", password);
+                    cmd.Parameters.AddWithValue("@VaiTro", role);
 
                     int rows = cmd.ExecuteNonQuery();
 
@@ -235,6 +245,27 @@ namespace StudentManagement.UI.Pages
             txtStudentId.Text = row["MaSV"].ToString();
             txtUsername.Text = row["Username"].ToString();
             txtPassword.Text = row["Password"].ToString();
+            // Gán VaiTro nếu có
+            if (row.Row.Table.Columns.Contains("VaiTro"))
+            {
+                var v = row["VaiTro"]?.ToString();
+                // chọn item tương ứng trong ComboBox
+                if (!string.IsNullOrEmpty(v))
+                {
+                    foreach (ComboBoxItem it in cbRole.Items)
+                    {
+                        if ((it.Content as string) == v)
+                        {
+                            cbRole.SelectedItem = it;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    cbRole.SelectedIndex = -1;
+                }
+            }
         }
 
         // ==================== XÓA FORM ====================
@@ -243,6 +274,8 @@ namespace StudentManagement.UI.Pages
             txtStudentId.Text = "";
             txtUsername.Text = "";
             txtPassword.Text = "";
+            if (cbRole != null)
+                cbRole.SelectedIndex = -1;
         }
     }
 }

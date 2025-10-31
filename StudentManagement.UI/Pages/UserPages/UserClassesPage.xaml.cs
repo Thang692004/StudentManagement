@@ -25,9 +25,11 @@ namespace StudentManagement.UI.Pages.UserPages
     public partial class UserClassesPage : UserControl
     {
         private readonly string connectionString;
-        public UserClassesPage()
+        private readonly string? _maKhoaFilter;
+        public UserClassesPage(string? maKhoaFilter = null)
         {
             InitializeComponent();
+            _maKhoaFilter = maKhoaFilter;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -46,16 +48,25 @@ namespace StudentManagement.UI.Pages.UserPages
                 using var conn = new MySqlConnection(connectionString);
                 await conn.OpenAsync();
 
-                const string query = @"
-                    SELECT l.MaLop, l.TenLop, k.TenKhoa
-                    FROM lop l
-                    INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa;
-                ";
-
-                using var adapter = new MySqlDataAdapter(query, conn);
-                var dt = new DataTable();
-                adapter.Fill(dt);
-                ClassDataGrid.ItemsSource = dt.DefaultView;
+                string query;
+                if (!string.IsNullOrWhiteSpace(_maKhoaFilter))
+                {
+                    query = @"SELECT l.MaLop, l.TenLop, k.TenKhoa FROM lop l INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa WHERE l.MaKhoa = @maKhoa;";
+                    using var cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@maKhoa", _maKhoaFilter);
+                    using var adapter = new MySqlDataAdapter(cmd);
+                    var dt = new DataTable();
+                    adapter.Fill(dt);
+                    ClassDataGrid.ItemsSource = dt.DefaultView;
+                }
+                else
+                {
+                    query = @"SELECT l.MaLop, l.TenLop, k.TenKhoa FROM lop l INNER JOIN khoa k ON l.MaKhoa = k.MaKhoa;";
+                    using var adapter = new MySqlDataAdapter(query, conn);
+                    var dt = new DataTable();
+                    adapter.Fill(dt);
+                    ClassDataGrid.ItemsSource = dt.DefaultView;
+                }
             }
             catch (Exception ex)
             {

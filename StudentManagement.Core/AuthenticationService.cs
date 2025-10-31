@@ -10,21 +10,40 @@ namespace StudentManagement.Core
 {
     public class AuthenticationService
     {
-        private readonly ReadUsers _readUsers;
+        private readonly ReadDatabase.ReadUsers _readUsers;
 
         public AuthenticationService()
         {
-            _readUsers = new ReadUsers();
+            _readUsers = new ReadDatabase.ReadUsers();
         }
 
-        public string? AuthenticateUser(string TenDangNhap, string MatKhau)
+        /// <summary>
+        /// Authenticate and return role + MaSV (if available).
+        /// </summary>
+        public AuthenticationResult? AuthenticateUser(string TenDangNhap, string MatKhau)
         {
             if (string.IsNullOrEmpty(TenDangNhap) || string.IsNullOrEmpty(MatKhau))
             {
                 return null;
             }
 
-            return _readUsers.GetUserRoleByCredentials(TenDangNhap, MatKhau);
+            try
+            {
+                // ReadUsers will return role and MaSV for the account (or null if not found)
+                var (role, maSV) = _readUsers.GetRoleAndMaSVByCredentials(TenDangNhap, MatKhau);
+                if (role == null) return null;
+
+                return new AuthenticationResult
+                {
+                    Role = role,
+                    MaSV = maSV,
+                    Username = TenDangNhap
+                };
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
