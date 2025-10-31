@@ -6,7 +6,7 @@ namespace StudentManagement.Core.ReadDatabase
 {
     public class ReadUsers
     {
-        private string connectionString = "Server=127.0.0.1;Database=quanlysinhvien;Uid=root;Pwd=;";
+        private string connectionString = "Server=127.0.0.1;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
 
         /// <summary>
         /// Kiểm tra tài khoản đăng nhập và trả về vai trò (Admin / Student) nếu hợp lệ

@@ -8,7 +8,7 @@ namespace StudentManagement.UI.Pages
 {
     public partial class AccountsPage : UserControl
     {
-        private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=;";
+        private string connectionString = "server=127.0.0.1;database=quanlysinhvien;uid=root;pwd=thang692004;";
 
         public AccountsPage()
         {

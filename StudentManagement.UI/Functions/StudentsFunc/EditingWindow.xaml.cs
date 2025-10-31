@@ -269,19 +269,31 @@ namespace StudentManagement.UI.Functions.StudentsFunc
             }
 
             // Quay lại StudentsPage
-            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var mainWindow = Window.GetWindow(this) as MainWindow
+                             ?? Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
             if (mainWindow != null)
             {
                 mainWindow.MainContent.Content = new StudentManagement.UI.Pages.StudentsPage();
+            }
+            else
+            {
+                MessageBox.Show("Không thể quay lại trang danh sách: không tìm thấy cửa sổ chính.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var mainWindow = Window.GetWindow(this) as MainWindow
+                             ?? Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
             if (mainWindow != null)
             {
                 mainWindow.MainContent.Content = new StudentManagement.UI.Pages.StudentsPage();
+            }
+            else
+            {
+                MessageBox.Show("Không thể quay lại trang danh sách: không tìm thấy cửa sổ chính.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

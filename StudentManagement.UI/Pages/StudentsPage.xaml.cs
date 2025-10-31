@@ -94,11 +94,18 @@ namespace StudentManagement.UI.Pages
         }
         private void BtnAdding_Click(object sender, RoutedEventArgs e)
         {
-            // Lấy MainWindow
-            var mainWindow = Application.Current.MainWindow as MainWindow;
+            // Cố gắng lấy MainWindow một cách tin cậy: ưu tiên cửa sổ chứa UserControl
+            var mainWindow = Window.GetWindow(this) as MainWindow
+                             ?? Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
             if (mainWindow != null)
             {
                 mainWindow.MainContent.Content = new StudentsAddingWindow(); // thay thế StudentsPage
+            }
+            else
+            {
+                // Thông báo thay vì im lặng, dễ dàng phát hiện lỗi khi Application.Current.MainWindow không được set
+                MessageBox.Show("Không thể chuyển trang: không tìm thấy cửa sổ chính.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -121,9 +128,18 @@ namespace StudentManagement.UI.Pages
 
             // 3. Chọn đúng 1 sinh viên
             var selectedStudent = StudentsDataGrid.SelectedItem as Student;
-            var editwindow = Application.Current.MainWindow as MainWindow;
 
-            editwindow.MainContent.Content = new StudentsEditingWindow(selectedStudent);
+            var mainWindow = Window.GetWindow(this) as MainWindow
+                             ?? Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
+            if (mainWindow != null)
+            {
+                mainWindow.MainContent.Content = new StudentsEditingWindow(selectedStudent);
+            }
+            else
+            {
+                MessageBox.Show("Không thể chuyển trang để sửa: không tìm thấy cửa sổ chính.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Delete_button(object sender, RoutedEventArgs e)

@@ -41,10 +41,16 @@ namespace StudentManagement.UI.Functions.StudentsFunc
         // --- NÚT HỦY ---
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var mainWindow = Window.GetWindow(this) as MainWindow
+                             ?? Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
             if (mainWindow != null)
             {
                 mainWindow.MainContent.Content = new StudentsPage();
+            }
+            else
+            {
+                MessageBox.Show("Không thể quay lại trang danh sách: không tìm thấy cửa sổ chính.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private bool IsValidStudentData( string maSV, string hoTen, string gioiTinh,
@@ -137,19 +143,44 @@ namespace StudentManagement.UI.Functions.StudentsFunc
         {
             // Cần đảm bảo Checkbox trong XAML có x:Name="chkTrangThai"
             bool isStudying = chkTrangThai.IsChecked ?? false;
+            // Kiểm tra Ngày sinh trước khi lấy .Value để tránh InvalidOperationException
+            if (dpDateOfBirth.SelectedDate == null)
+            {
+                MessageBox.Show("Vui lòng chọn Ngày sinh.", "Lỗi Xác thực", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            // Chuẩn hóa và lấy giá trị từ controls (trim, fallback khi SelectedValue null)
+            string maSV = txtStudentId.Text?.Trim();
+            string hoTen = txtName.Text?.Trim();
+            string gioiTinh = (cbGender.SelectedItem as ComboBoxItem)?.Content?.ToString()?.Trim() ?? cbGender.Text?.Trim();
+            string email = txtEmail.Text?.Trim();
+            string sdt = txtSdt.Text?.Trim();
+
+            string maLop = txtClass.SelectedValue?.ToString()?.Trim();
+            if (string.IsNullOrWhiteSpace(maLop) && !string.IsNullOrWhiteSpace(txtClass.Text) && txtClass.Text != "--Chọn Lớp--")
+            {
+                maLop = txtClass.Text.Trim();
+            }
+
+            string maKhoa = txtFaculty.SelectedValue?.ToString()?.Trim();
+            if (string.IsNullOrWhiteSpace(maKhoa) && !string.IsNullOrWhiteSpace(txtFaculty.Text) && txtFaculty.Text != "--Chọn Khoa--")
+            {
+                maKhoa = txtFaculty.Text.Trim();
+            }
+
+            string diaChi = txtAdress.Text?.Trim();
 
             Student newStudent = new Student
             {
-                
-                MaSV = txtStudentId.Text,
-                HoTen = txtName.Text,
+                MaSV = maSV,
+                HoTen = hoTen,
                 NgaySinh = dpDateOfBirth.SelectedDate.Value,
-                GioiTinh = (cbGender.SelectedItem as ComboBoxItem)?.Content.ToString(),
-                Email = txtEmail.Text,
-                SoDienThoai = txtSdt.Text,
-                MaLop = txtClass.SelectedValue?.ToString(),
-                MaKhoa = txtFaculty.SelectedValue?.ToString(),
-                DiaChi = txtAdress.Text,
+                GioiTinh = gioiTinh,
+                Email = email,
+                SoDienThoai = sdt,
+                MaLop = maLop,
+                MaKhoa = maKhoa,
+                DiaChi = diaChi,
                 // GÁN GIÁ TRỊ TRẠNG THÁI
                 Check_TrangThai = isStudying
             };
@@ -180,10 +211,16 @@ namespace StudentManagement.UI.Functions.StudentsFunc
             }
 
             // Quay lại StudentsPage
-            var mainWindow = Application.Current.MainWindow as MainWindow;
+            var mainWindow = Window.GetWindow(this) as MainWindow
+                             ?? Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
             if (mainWindow != null)
             {
                 mainWindow.MainContent.Content = new StudentsPage();
+            }
+            else
+            {
+                MessageBox.Show("Không thể quay lại trang danh sách: không tìm thấy cửa sổ chính.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
