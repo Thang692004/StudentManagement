@@ -5,15 +5,12 @@ using StudentManagement.Core;
 using ZstdSharp.Unsafe;
 namespace StudentManagement
 {
-    public class ReadFaculties
+    public class ReadFaculties : DatabaseServiceBase
     {
-
-        private string connStr = "Server=localhost;Port=3306;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
-
         public List<Faculty> GetFaculties()
         {
             var faculties = new List<Faculty>();
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
                 string query = @"SELECT MaKhoa, TenKhoa FROM khoa  ";

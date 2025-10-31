@@ -4,13 +4,11 @@ using System;
 
 namespace StudentManagement
 {
-    public class InsertStudents
+    public class InsertStudents : DatabaseServiceBase
     {
-        private string connStr = "Server=localhost;Port=3306;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
-
         public void AddStudent(Student student)
         {
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
 

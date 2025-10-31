@@ -6,39 +6,36 @@ using ZstdSharp.Unsafe;
 
 namespace StudentManagement
 {
-	public class ReadClasses
-	{
-
-        private string connStr = "Server=localhost;Port=3306;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
-
-		public List<Class> GetClasses()
-		{
-			var classes = new List<Class>();
-			using (var conn = new MySqlConnection(connStr) )
-			{
-				conn.Open();
-				string query = @"SELECT c.MaLop,c.TenLop,c.MaKhoa, k.TenKhoa FROM lop c
+    public class ReadClasses : DatabaseServiceBase
+    {
+        public List<Class> GetClasses()
+        {
+            var classes = new List<Class>();
+            using (var conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"SELECT c.MaLop,c.TenLop,c.MaKhoa, k.TenKhoa FROM lop c
 							   LEFT JOIN 
 									khoa k ON c.MaKhoa = k.MaKhoa;  ";
 
-				using (var cmd = new MySqlCommand(query, conn))
-				using (var reader = cmd.ExecuteReader())
-				{
-					while(reader.Read())
-					{
-						Class c = new Class();
+                using (var cmd = new MySqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Class c = new Class();
 
-						c.ClassCode = reader.GetString("MaLop");
-						c.ClassName = reader.GetString("TenLop");
-						c.FacultyCode = reader.GetString("MaKhoa");
-						c.FacultyName = reader.GetString("TenKhoa");
+                        c.ClassCode = reader.GetString("MaLop");
+                        c.ClassName = reader.GetString("TenLop");
+                        c.FacultyCode = reader.GetString("MaKhoa");
+                        c.FacultyName = reader.GetString("TenKhoa");
 
-						classes.Add(c);
-					}
-				}
+                        classes.Add(c);
+                    }
+                }
 
-			}
-			return classes;
-		}
-	}
+            }
+            return classes;
+        }
+    }
 }

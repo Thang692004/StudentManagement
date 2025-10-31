@@ -1,49 +1,37 @@
-﻿using MySqlConnector;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using MySqlConnector;
 
 namespace StudentManagement.Core.ReadDatabase
 {
-    public class ReadUsers
+    public class ReadUsers : DatabaseServiceBase
     {
-        private string connectionString = "Server=127.0.0.1;Database=quanlysinhvien;Uid=root;Pwd=thang692004;";
+        public ReadUsers(string? connectionString = null) : base(connectionString) { }
 
-        /// <summary>
-        /// Kiểm tra tài khoản đăng nhập và trả về vai trò (Admin / Student) nếu hợp lệ
-        /// </summary>
         public string? GetUserRoleByCredentials(string username, string password)
         {
             try
             {
-                using (var conn = new MySqlConnection(connectionString))
+                using (var conn = new MySqlConnection(ConnectionString))
                 {
                     conn.Open();
-
-                    // Đổi tên bảng và cột để khớp với SQL thật
-                    string query = @"
-                        SELECT VaiTro 
-                        FROM tai_khoan 
-                        WHERE TenDangNhap = @username 
-                          AND MatKhau = @password 
-                          AND TrangThai = 1
-                        LIMIT 1;
-                    ";
-
+                    string query = "SELECT VaiTro FROM tai_khoan WHERE TenDangNhap = @username AND MatKhau = @password";
                     using (var cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@username", username);
                         cmd.Parameters.AddWithValue("@password", password);
-
                         object result = cmd.ExecuteScalar();
                         return result?.ToString();
                     }
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception)
             {
-                // Bạn có thể log lỗi chi tiết hơn ở đây
-                MessageBox.Show("Lỗi khi đọc dữ liệu tài khoản: " + ex.Message);
-                return null;
+                throw;
             }
         }
     }
