@@ -59,7 +59,8 @@
                       AlternatingRowBackground="#F8F9F9"
                       GridLinesVisibility="None"
                       RowHeight="35"
-                      FontSize="14">
+                      FontSize="14"
+                      MouseDoubleClick="StudentsDataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding MaSV}" Width="70" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Họ tên" Binding="{Binding HoTen}" Width="200" IsReadOnly="True"/>

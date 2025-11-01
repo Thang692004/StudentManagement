@@ -213,6 +213,31 @@ namespace StudentManagement.UI.Pages
             string searchText = SearchBox.Text;
             PerformSearch(searchText);
         }
+        private void StudentsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (StudentsDataGrid.SelectedItem is null)
+                return;
+
+            // Giả sử mỗi dòng là một đối tượng sinh viên có thuộc tính MaSV
+            dynamic selectedStudent = StudentsDataGrid.SelectedItem;
+
+            try
+            {
+                string maSV = selectedStudent.MaSV?.ToString();
+                if (!string.IsNullOrEmpty(maSV))
+                {
+                    Clipboard.SetText(maSV);
+                    MessageBox.Show($"Đã copy MaSV: {maSV} vào clipboard.", "Thông báo",
+                                    MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không thể copy MaSV.\n" + ex.Message, "Lỗi",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
 
     }
 }
